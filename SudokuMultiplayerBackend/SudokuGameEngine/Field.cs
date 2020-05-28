@@ -14,7 +14,7 @@ namespace SudokuGameEngine
         /// <summary>
         /// Wartość pola - 1,2,3,4,5,6,7,8,9 lub -1 jeśli niewypełnione
         /// </summary>
-        public int Number { get => this.value; set => this.value = value; }
+        public int Value { get => this.value; set => this.value = value; }
 
         /// <summary>
         /// Właściwość mówiąca, czy pole jest wypełnione od początku gry i czy można je edytować

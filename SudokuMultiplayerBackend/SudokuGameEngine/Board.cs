@@ -91,30 +91,81 @@ namespace SudokuGameEngine
         /// (1,0) (1,1) (1,2) 
         /// (2,0) (2,1) (2,2)
         /// </summary>
-        /// <param name="squareRow">Wiersz segmentu</param>
-        /// <param name="squareColumn">Kolumna segmentu</param>
+        /// <param name="segmentRow">Wiersz segmentu</param>
+        /// <param name="segmentColumn">Kolumna segmentu</param>
         /// <param name="complete">Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry</param>
         /// <returns></returns>
-        private bool IsSegmentCorrect(int squareRow, int squareColumn, bool complete = false)
+        private bool IsSegmentCorrect(int segmentRow, int segmentColumn, bool complete = false)
         {
             throw new NotImplementedException();
         }
 
 
         /// <summary>
-        /// Zwraca segment planszy  
+        /// Zwraca pola z danego segmentu planszy  
         /// /// Plansza podzielona jest na 9 segmentów, 3 wiersze (numerowane od 0) i 3 kolumny (numerowane od 0) 
         /// Np. segment(0,0) zawiera pola:
         /// (0,0) (0,1) (0,2) 
         /// (1,0) (1,1) (1,2) 
         /// (2,0) (2,1) (2,2
         /// </summary>
-        /// <param name="squareRow">Wiersz segmentu</param>
-        /// <param name="squareColumn">Kolumna segmentu</param>
+        /// <param name="segmentRow">Wiersz segmentu</param>
+        /// <param name="segmentColumn">Kolumna segmentu</param>
         /// <returns>Tablica jednowymiarowa zawierająca 9 pól z danego segmentu</returns>
-        private Field[] GetSquareFields(int squareRow, int squareColumn)
+        private Field[] GetSegmentFields(int segmentRow, int segmentColumn)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Zwraca pola z danej kolumny planszy
+        /// </summary>
+        /// <param name="column">Kolumna</param>
+        /// <returns>Tablica jednowymiarowa zawierająca 9 pól z podanej kolumny</returns>
+        private Field[] GetColumnFields(int column)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Sprawdza, czy wszystkie pola są wypełnione
+        /// </summary>
+        /// <param name="fieldsRange">Wiersz, kolumna lub segment</param>
+        /// <returns>Prawda, jeśli wszystkie są wypełnione</returns>
+        private bool isComplete(Field[] fieldsRange)
+        {
+            if (fieldsRange.Length != 9)
+                throw new ArgumentException("Incorrect fieldsRange provided. Should be length 9");
+            foreach(Field field in fieldsRange)
+            {
+                if (field.Value == -1)
+                    return false;
+            }
+            return true;
+        }
+
+
+        /// <summary>
+        /// Sprawdza, czy wartości podanego zakresu są poprawnie uzupełnione (czy liczby się nie powtarzają) 
+        /// Nie wszystkie pola muszą być wypełnione
+        /// </summary>
+        /// <param name="fieldsRange">Wiersz, kolumna lub segment</param>
+        /// <returns>Prawda, jeśli poprawnie wypełnione</returns>
+        private bool isCorrect(Field[] fieldsRange)
+        {
+            if (fieldsRange.Length != 9)
+                throw new ArgumentException("Incorrect fieldsRange provided. Should be length 9");
+            ISet<int> usedValues = new HashSet<int>();
+            foreach (Field field in fieldsRange)
+            {
+                if (field.Value == -1)
+                    continue;
+                if (usedValues.Contains(field.Value))
+                    return false;
+                usedValues.Add(field.Value);
+            }
+            return true;
         }
 
 
