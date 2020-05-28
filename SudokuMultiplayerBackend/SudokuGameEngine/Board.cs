@@ -16,14 +16,19 @@ namespace SudokuGameEngine
         /// </summary>
         public bool GameOver => IsGameCorrect(true);
 
+        public Board(Field[,] fields)
+        {
+
+        }
+
 
         /// <summary>
         /// Wstawienie numeru w odpowiednim polu 
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
-        /// <param name="value"></param>
-        private void InsertField(int row, int column, int value)
+        /// <param name="row">Wiersz</param>
+        /// <param name="column">Kolumna</param>
+        /// <param name="value">Wartość, 0 oznacza pole niewypełnione</param>
+        public void InsertField(int row, int column, int value)
         {
             if (row < 0 || row > 8)
                 throw new ArgumentException("Row should be from integer range <0,8>");
@@ -31,8 +36,8 @@ namespace SudokuGameEngine
             if (column < 0 || column > 8)
                 throw new ArgumentException("Column should be from integer range <0,8>");
 
-            if (value < -1 || value > 9 || value == 0)
-                throw new ArgumentException("Value should be from set {-1, 1, 2, 3, 4, 5, 6, 7, 8, 9}");
+            if (value < 0 || value > 9 )
+                throw new ArgumentException("Value should be from set {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}");
 
             if (fields[row, column].IsBlocked)
                 throw new ArgumentException("This field is blocked, it should not be allowed to edit it");
@@ -199,7 +204,7 @@ namespace SudokuGameEngine
 
             foreach (Field field in fieldsRange)
             {
-                if (field.Value == -1)
+                if (field.Value == 0)
                     return false;
             }
             return true;
@@ -219,7 +224,7 @@ namespace SudokuGameEngine
             ISet<int> usedValues = new HashSet<int>();
             foreach (Field field in fieldsRange)
             {
-                if (field.Value == -1)
+                if (field.Value == 0)
                     continue;
                 if (usedValues.Contains(field.Value))
                     return false;

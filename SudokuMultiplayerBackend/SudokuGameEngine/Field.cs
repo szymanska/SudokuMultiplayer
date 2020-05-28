@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SudokuGameEngine
+﻿namespace SudokuGameEngine
 {
     /// <summary>
     /// Klasa pola na planszy sudoku
@@ -12,9 +10,9 @@ namespace SudokuGameEngine
         private bool isBlocked;
 
         /// <summary>
-        /// Wartość pola - 1,2,3,4,5,6,7,8,9 lub -1 jeśli niewypełnione
+        /// Wartość pola 0,2,3,4,5,6,7,8,9 lub 0 jeśli niewypełnione
         /// </summary>
-        public int Value { get => this.value; set => this.value = value; }
+        public int Value { get => value; set => this.value = value; }
 
         /// <summary>
         /// Właściwość mówiąca, czy pole jest wypełnione od początku gry i czy można je edytować
