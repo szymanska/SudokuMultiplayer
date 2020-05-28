@@ -1,0 +1,8 @@
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\bin\Debug\netcoreapp3.1\SudokuGameEngine.deps.json
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\bin\Debug\netcoreapp3.1\SudokuGameEngine.dll
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\obj\Debug\netcoreapp3.1\SudokuGameEngine.csprojAssemblyReference.cache
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\obj\Debug\netcoreapp3.1\SudokuGameEngine.AssemblyInfoInputs.cache
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\obj\Debug\netcoreapp3.1\SudokuGameEngine.AssemblyInfo.cs
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\bin\Debug\netcoreapp3.1\SudokuGameEngine.pdb
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\obj\Debug\netcoreapp3.1\SudokuGameEngine.dll
+C:\Users\DAMIAN\Desktop\Chmurki repo\SudokuMultiplayer\SudokuMultiplayerBackend\SudokuGameEngine\obj\Debug\netcoreapp3.1\SudokuGameEngine.pdb

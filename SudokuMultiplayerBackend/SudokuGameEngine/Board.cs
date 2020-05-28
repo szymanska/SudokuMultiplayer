@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SudokuGameEngine
 {
-    class Board
+    public class Board
     {
         /// <summary>
         /// Pola na planszy
@@ -16,9 +15,27 @@ namespace SudokuGameEngine
         /// </summary>
         public bool GameOver => IsGameCorrect(true);
 
-        public Board(Field[,] fields)
+        /// <summary>
+        /// Tworzy nową planszę
+        /// </summary>
+        /// <param name="puzzle">Napis składający się z 81 cyfr - wartości pól - sudoku do ułożenia</param>
+        /// <param name="solution">Napis składający się z 81 cyfr - wartości pól - rozwiązanie sudoku</param>
+        public Board(string puzzle, string solution)
         {
+            if (puzzle.Length != 81 || solution.Length != 81)
+                throw new ArgumentException("Puzzle or solution length is incorrect");
 
+            for (int row = 0; row < 9; row++)
+            {
+                for (int column = 0; column < 9; column++)
+                {
+                    int index = row * 9 + column;
+                    int startValue = int.Parse(puzzle[index].ToString());
+                    int correctValue = int.Parse(solution[index].ToString());
+                    Field field = new Field(correctValue, startValue);
+                    fields[row, column] = field;
+                }
+            }
         }
 
 
@@ -36,7 +53,7 @@ namespace SudokuGameEngine
             if (column < 0 || column > 8)
                 throw new ArgumentException("Column should be from integer range <0,8>");
 
-            if (value < 0 || value > 9 )
+            if (value < 0 || value > 9)
                 throw new ArgumentException("Value should be from set {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}");
 
             if (fields[row, column].IsBlocked)
