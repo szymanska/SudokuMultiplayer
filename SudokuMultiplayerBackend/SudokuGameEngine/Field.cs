@@ -4,8 +4,11 @@ namespace SudokuGameEngine
 {
     public class Field
     {
-        public int number;
+        private int number;
 
-        public bool isBlocked;
+        private bool isBlocked;
+
+        public int Number { get => number; set => number = value; }
+        public bool IsBlocked { get => isBlocked; set => isBlocked = value; }
     }
 }
