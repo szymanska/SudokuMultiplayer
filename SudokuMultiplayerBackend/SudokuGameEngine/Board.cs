@@ -6,25 +6,17 @@ namespace SudokuGameEngine
 {
     class Board
     {
+        /// <summary>
+        /// Pola na planszy
+        /// </summary>
         private Field[,] fields = new Field[9, 9];
 
         /// <summary>
-        /// Metoda sprawdzająca czy gra została poprawnie ukończona
+        /// Sprawdza czy gra została zakończona poprawnie 
         /// </summary>
-        /// <returns></returns>
-        private bool IsGameCorrect() {
-            for(int row=0; row<fields.GetLength(0); row++)
-            {
-                for (int column=0; column<fields.GetLength(1); column++)
-                {
-                    if (!IsFieldCorrect(row, column))
-                        return false;
-                }
-            }
-            return true;
-        }
+        public bool GameOver => IsGameCorrect(true);
 
-     
+
         /// <summary>
         /// Wstawienie numeru w odpowiednim polu 
         /// </summary>
@@ -36,40 +28,63 @@ namespace SudokuGameEngine
             throw new NotImplementedException();
         }
 
+
         /// <summary>
-        /// Sprawdza czy w aktualnym stanie gry dane pole jest poprawnie uzupełnione
+        /// Metoda sprawdzająca czy gra została poprawnie ukończona
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
-        /// <param name="value"></param>
+        /// <param name="complete">Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry</param>
         /// <returns></returns>
-        private bool IsFieldCorrect(int row, int column)
+        private bool IsGameCorrect(bool complete = false)
+        {
+            for (int row = 0; row < fields.GetLength(0); row++)
+            {
+                for (int column = 0; column < fields.GetLength(1); column++)
+                {
+                    if (!IsFieldCorrect(row, column, complete))
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Sprawdza aktualnym stanie gry, czy dane pole jest poprawnie uzupełnione
+        /// </summary>
+        /// <param name="row">Wiersz</param>
+        /// <param name="column">Kolumna</param>
+        /// <param name="complete">Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry</param>
+        /// <returns></returns>
+        private bool IsFieldCorrect(int row, int column, bool complete = false)
+        {
+            int segmentRow = row / 3;
+            int segmentColumn = column / 3;
+            return IsRowCorrect(row, complete) && IsColumnCorrect(column, complete) && IsSegmentCorrect(segmentRow, segmentColumn, complete);
+        }
+
+        /// <summary>
+        /// Sprawdza, czy wiersz jest poprawnie uzupełniony 
+        /// </summary>
+        /// <param name="row">Wiersz</param>
+        /// <param name="complete">Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry</param>
+        /// <returns></returns>
+        private bool IsRowCorrect(int row, bool complete = false)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Sprawdza, czy wiersz jest poprawnie uzupełniony (mogą być w nim braki) 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <returns></returns>
-        private bool IsRowCorrect(int row)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Sprawdza czy kolumna jest poprawnie uzupełniona (mogą być w niej braki)
+        /// Sprawdza czy kolumna jest poprawnie uzupełniona
         /// </summary>
         /// <param name="column">Kolumna</param>
+        /// <param name="complete">Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry</param>
         /// <returns></returns>
-        private bool IsColumnCorrect(int column)
+        private bool IsColumnCorrect(int column, bool complete = false)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Sprawdza czy segment jest poprawnie uzupełniony (mogą być w nim braki) 
+        /// Sprawdza czy segment jest poprawnie uzupełniony 
         /// Plansza podzielona jest na 9 segmentów, 3 wiersze (numerowane od 0) i 3 kolumny (numerowane od 0) 
         /// Np. segment(0,0) zawiera pola:
         /// (0,0) (0,1) (0,2) 
@@ -78,8 +93,9 @@ namespace SudokuGameEngine
         /// </summary>
         /// <param name="squareRow">Wiersz segmentu</param>
         /// <param name="squareColumn">Kolumna segmentu</param>
+        /// <param name="complete">Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry</param>
         /// <returns></returns>
-        private bool IsSquareCorrect(int squareRow, int squareColumn)
+        private bool IsSegmentCorrect(int squareRow, int squareColumn, bool complete = false)
         {
             throw new NotImplementedException();
         }
@@ -95,7 +111,7 @@ namespace SudokuGameEngine
         /// </summary>
         /// <param name="squareRow">Wiersz segmentu</param>
         /// <param name="squareColumn">Kolumna segmentu</param>
-        /// <returns></returns>
+        /// <returns>Tablica jednowymiarowa zawierająca 9 pól z danego segmentu</returns>
         private Field[] GetSquareFields(int squareRow, int squareColumn)
         {
             throw new NotImplementedException();
