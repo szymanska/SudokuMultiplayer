@@ -1,0 +1,268 @@
+:root {
+    --main-color: rgba(100, 160, 75, 0.8);
+    --main-light-color: rgba(243, 252, 238, 0.8);
+    --main-light2-color: rgba(169, 209, 153, 0.8);
+    --main-dark-color: rgba(126, 152, 112, 0.8);
+    --secondary-color: rgb(126, 156, 128, 0.8);
+    --secondary-light-color: rgba(246, 237, 217);
+    --background-color: rgba(246, 237, 217);
+    --secondary-medium-color: rgba(82, 131, 109, 0.8);
+    --seconary-dark-color: rgba(30, 105, 94, 0.8);
+    --seconary-dark-transparent-color: rgba(30, 105, 94, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --normal-margin: 20px;
+    --big-margin: 30px;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary-light-color);
+    overflow: hidden;
+}
+
+.app {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    position: relative;
+    font-family: sans-serif;
+}
+
+/* Rozmycie tła */
+
+.game.stop {
+    filter: blur(10px);
+}
+
+.menu, .rules, .leaderboard {
+    min-width: 700px;
+    min-height: 320px;
+    width: 50%;
+    height: 50%;
+    float: left;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.rules, .leaderboard {
+    display: none;
+}
+
+/* menu settings */
+
+.new-game, .join-game {
+    width: 36%;
+    height: 100%;
+    margin-right: 5%;
+    float: left;
+}
+
+.options {
+    width: 18%;
+    height: 100%;
+    float: right;
+}
+
+.rules-window, .leaderboard-window {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/* window settings - can be applied to other windows */
+
+.new-game, .join-game, .options, .rules-window, .leaderboard-window {
+    box-sizing: border-box;
+    border: 5px solid var(--main-color);
+    box-shadow: 0 0 0 0.3em var(--secondary-light-color), 0 0 0.4em 0.4em var(--main-color);
+    border-radius: 30px;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--normal-margin);
+    visibility: hidden;
+}
+
+.new-game {
+    bottom: 40px;
+    visibility: hidden;
+}
+
+.join-game {
+    align-items: center;
+    font-family: sans-serif;
+    bottom: 40px;
+}
+
+/* Wybór poziomu */
+
+.new-game .levels, .new-game .sudoku-types {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.new-game .levels {
+    margin-top: var(--big-margin);
+    width: 210px;
+}
+
+.new-game .sudoku-types {
+    margin-top: var(--normal-margin);
+    width: 210px;
+}
+
+.new-game input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.new-game label {
+    width: 65px;
+    height: 65px;
+    line-height: 65px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    color: var(--secondary-light-color);
+    text-align: center;
+    cursor: pointer;
+}
+
+.new-game input[type=radio]:checked+label {
+    background-color: var(--seconary-dark-color);
+}
+
+.new-game input[type=radio]:not(:checked):hover+label {
+    background-color: var(--secondary-medium-color);
+}
+
+.new-game input[type=radio]:active+label {
+    transform: scale(.95);
+}
+
+.rules-button, .leaderboard-button, .logout-button {
+    width: 65px;
+    height: 65px;
+    line-height: 65px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    color: var(--secondary-light-color);
+    text-align: center;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.leaderboard-button, .logout-button {
+    margin-top: var(--normal-margin);
+}
+
+.new-game .title, .join-game .title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--seconary-dark-color);
+    text-transform: uppercase;
+}
+
+/* Buttons - can be reused */
+
+.new-game .play {
+    width: 120px;
+    height: 30px;
+    background-color: var(--secondary-color);
+    color: var(--secondary-light-color);
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 20px;
+    line-height: 30px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: var(--big-margin);
+}
+
+/* Buttons:hover - can be reused */
+
+.new-game .play:hover, .options .rules-button:hover, .options .leaderboard-button:hover, .options .logout-button:hover {
+    background-color: var(--seconary-dark-color);
+}
+
+/* Buttons:active - can be reused */
+
+.new-game .play:active, .options .rules-button:active, .options .leaderboard-button:active, .options .logout-button:active {
+    transform: scale(.95);
+}
+
+/* CODE INPUT */
+
+.link-container {
+    margin-top: var(--big-margin);
+    font-size: 10px;
+    font-family: Roboto, sans-serif;
+    width: 100%;
+    font-weight: 700;
+    border-radius: 6.25em;
+    background-color: var(--secondary-light-color);
+    padding: 0.625em;
+    box-sizing: border-box;
+    box-shadow: 0 0.1em 0.3em var(--shadow-color);
+    display: flex;
+    justify-content: center;
+    height: 60px;
+}
+
+.link-input, .link-button {
+    font: inherit;
+    border: 0;
+    outline: 0;
+    border-radius: 5em;
+    box-sizing: border-box;
+    font-size: 1.75em;
+}
+
+.link-input {
+    color: var(--main-light2-color);
+    background: var(--secondary-light-color);
+    height: 100%;
+    width: 100%;
+    padding: 0 0.714em;
+}
+
+.link-input::placeholder {
+    color: var(--main-light2-color);
+}
+
+.link-container .link-input:valid {
+    color: var(--secondary-medium-color);
+}
+
+.link-container .link-input:valid+.link-button {
+    color: var(--secondary-light-color);
+    cursor: pointer;
+}
+
+.link-container .link-input:valid+.link-button:active {
+    transform: scale(.95);
+}
+
+.link-button {
+    color: var(--main-light2-color);
+    height: 48px;
+    width: auto;
+    text-align: center;
+    width: 5em;
+    background-color: var(--secondary-medium-color);
+    line-height: 48px;
+}
