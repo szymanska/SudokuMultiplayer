@@ -30,7 +30,7 @@ var WildRydes = window.WildRydes || {};
     };
 
     WildRydes.authToken = new Promise(function fetchCurrentAuthToken(resolve, reject) {
-        var cognitoUser = userPool.getCurrentUser();f
+        var cognitoUser = userPool.getCurrentUser();
 
         if (cognitoUser) {
             cognitoUser.getSession(function sessionCallback(err, session) {
@@ -108,7 +108,6 @@ var WildRydes = window.WildRydes || {};
         $('#signinForm').submit(handleSignin);
         $('#registrationForm').submit(handleRegister);
         $('#verifyForm').submit(handleVerify);
-        $('#go-to-register')[0].addEventListener("click", handleGoToRegister);
     });
 
     function handleSignin(event) {
@@ -168,7 +167,4 @@ var WildRydes = window.WildRydes || {};
         );
     }
 
-    function handleGoToRegister(event) {
-        window.location.href = 'register.html'
-    }
 }(jQuery));
