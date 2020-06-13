@@ -19,6 +19,7 @@ const dom = {
     rulesBtn: $('.options .rules-button')[0],
     leaderboardBtn: $('.options .leaderboard-button')[0],
     logoutBtn: $('.options .logout-button')[0],
+
 }
 
 const render = {
@@ -30,18 +31,19 @@ const render = {
 const animation = {
     showMenu: () => {
         dom.game.classList.add('stop')
-        gsap.to(dom.newGame, 0, { visibility: 'visible', x: 0, delay:0 })
-        gsap.from(dom.newGame, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay:0 })
+        gsap.to(dom.newGame, 0, { visibility: 'visible', x: 0, delay: 0 })
+        gsap.from(dom.newGame, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0 })
         gsap.to(dom.joinGame, 0, { visibility: 'visible', x: 0, delay: 0.3 })
         gsap.from(dom.joinGame, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0.3 })
-        gsap.to(dom.options, 0, { visibility: 'visible', x: 0, delay:0.15 })
-        gsap.from(dom.options, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay:0.15 })
+        gsap.to(dom.options, 0, { visibility: 'visible', x: 0, delay: 0.15 })
+        gsap.from(dom.options, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0.15 })
     },
     hideMenu: () => {
         dom.game.classList.remove('stop')
-        gsap.to(dom.newGame, 1, {opacity: 0, duration: 0.5, delay:0})
-        gsap.to(dom.joinGame, 1, {opacity: 0, duration: 0.5, delay:0.3})
-        gsap.to(dom.options, 1, {opacity: 0, duration: 0.5, delay:0.15})
+        gsap.to(dom.newGame, 1, { opacity: 0, duration: 0.5, delay: 0 })
+        gsap.to(dom.joinGame, 1, { opacity: 0, duration: 0.5, delay: 0.3 })
+        gsap.to(dom.options, 1, { opacity: 0, duration: 0.5, delay: 0.15 })
+        gsap.to(dom.menu, 1, { display: "none", duration: 0.5, delay: 0.15 })
     },
 }
 
@@ -57,7 +59,7 @@ function init() {
     dom.leaderboardBtn.addEventListener('click', logout)
     dom.rulesCloseBtn.addEventListener('click', hideRules)
     dom.leaderboardCloseBtn.addEventListener('click', hideLeaderboard)
-    
+
     newGame()
 }
 
@@ -67,10 +69,12 @@ function newGame() {
 }
 
 function startGame() {
+    initGame()
     render.updateTime('00:00')
     animation.hideMenu()
     level = dom.getLevel().toUpperCase()
     levelValue = LEVEL_COUNT[level]
+    requestCreateGame(levelValue, "0", "email@email.com")
     timer.start()
 }
 
@@ -81,36 +85,73 @@ function joinGame() {
     timer.start()
 }
 
-function hideUI(element){
+function hideUI(element) {
     element.style.display = "none"
     element.style.visibility = 'hidden'
 }
 
-function showUI(element){
+function showUI(element) {
     element.style.display = "flex"
     element.style.visibility = 'visible'
 }
 
-function showRules(){
+function showRules() {
     hideUI(dom.menu)
     showUI(dom.rules)
 }
 
-function showLeaderboard(){
+function showLeaderboard() {
     hideUI(dom.menu)
     showUI(dom.leaderboard)
 }
 
-function hideRules(){
+function hideRules() {
     hideUI(dom.rules)
     showUI(dom.menu)
 }
 
-function hideLeaderboard(){
+function hideLeaderboard() {
     hideUI(dom.leaderboard)
     showUI(dom.menu)
 }
 
-function logout(){
+function logout() {
 
+}
+
+var WildRydes = window.WildRydes || {};
+
+var authToken;
+
+WildRydes.authToken.then(function setAuthToken(token) {
+    if (token) {
+        authToken = token;
+    } else {
+        window.location.href = '/signin.html';
+    }
+}).catch(function handleTokenError(error) {
+    alert(error);
+    window.location.href = '/signin.html';
+});
+
+function requestCreateGame(lvl, type, email) {
+    $.ajax({
+        method: 'POST',
+        url: _config.api.invokeUrl + '/create-game',
+        headers: {
+            Authorization: authToken
+        },
+        data: JSON.stringify({
+            lvl: lvl,
+            type: type,
+            email: email
+        }),
+        contentType: 'application/json',
+        success: completeRequest,
+        error: function ajaxError(jqXHR, textStatus, errorThrown) {
+            console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
+            console.error('Response: ', jqXHR.responseText);
+            alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
+        }
+    });
 }

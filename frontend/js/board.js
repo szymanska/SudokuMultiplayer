@@ -3,8 +3,6 @@ let backgroundColor = getComputedStyle(document.documentElement).getPropertyValu
 let greenColor = getComputedStyle(document.documentElement).getPropertyValue('--main-light2-color');
 let mainColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
 
-window.onload = initGame
-
 function initGame() {
 
     board = new Sudoku;

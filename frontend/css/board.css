@@ -4,11 +4,6 @@
     --main-color: rgba(100, 160, 75, 0.8);
 }
 
-body {
-    background-color: var(--background-color);
-    padding: 50px;
-}
-
 .sudoku {
     height: 60%;
 }
@@ -49,4 +44,8 @@ td td {
     transition: 0.2s linear;
     -webkit-transition: 0.2s linear;
     -moz-transition: 0.2s linear;
+}
+
+.app .game {
+    display: flex;
 }

@@ -40,10 +40,10 @@ body {
 /* Rozmycie tła */
 
 .game.stop {
-    filter: blur(10px);
+    filter: blur(12px);
 }
 
-.menu, .rules, .leaderboard {
+.menu, .rules, .leaderboard, .register {
     min-width: 700px;
     min-height: 320px;
     width: 50%;
@@ -75,16 +75,14 @@ body {
     float: right;
 }
 
-.rules-window, .leaderboard-window {
+.rules-window, .leaderboard-window, .register-window {
     width: 100%;
     height: 100%;
 }
 
-
-
 /* window settings - can be applied to other windows */
 
-.new-game, .join-game, .options, .rules-window, .leaderboard-window {
+.new-game, .join-game, .options, .rules-window, .leaderboard-window, .register-window {
     box-sizing: border-box;
     border: 5px solid var(--main-color);
     box-shadow: 0 0 0 0.3em var(--secondary-light-color), 0 0 0.4em 0.4em var(--main-color);
@@ -171,7 +169,7 @@ body {
     margin-top: var(--normal-margin);
 }
 
-.new-game .title, .join-game .title, .leaderboard-window .title, .rules-window .title {
+.new-game .title, .join-game .title, .leaderboard-window .title, .rules-window .title, .register-window .title {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -212,7 +210,7 @@ body {
 
 /* Buttons - can be reused */
 
-.new-game .play {
+.new-game .play .submitRegister {
     width: 120px;
     height: 30px;
     background-color: var(--secondary-color);
@@ -230,7 +228,7 @@ body {
 
 /* Buttons:hover - can be reused */
 
-.new-game .play:hover, .options .rules-button:hover, .options .leaderboard-button:hover, .options .logout-button:hover {
+.new-game .play:hover, .options .rules-button:hover, .options .leaderboard-button:hover, .options .logout-button:hover, .submitRegister:hover {
     background-color: var(--seconary-dark-color);
 }
 
@@ -240,7 +238,7 @@ body {
 
 /* Buttons:active - can be reused */
 
-.new-game .play:active, .options .rules-button:active, .options .leaderboard-button:active, .options .logout-button:active, .rules-window .close-button:active, .leaderboard-window .close-button:active {
+.new-game .play:active, .options .rules-button:active, .options .leaderboard-button:active, .options .logout-button:active, .rules-window .close-button:active, .leaderboard-window .close-button:active, .submitRegister:active {
     transform: scale(.95);
 }
 
