@@ -6,6 +6,8 @@ const dom = {
     time: $('.game .time')[0],
     menu: $('.menu')[0],
     rules: $('.rules')[0],
+    rulesCloseBtn: $('.rules-window .close-button')[0],
+    leaderboardCloseBtn: $('.leaderboard-window .close-button')[0],
     leaderboard: $('.leaderboard')[0],
     newGame: $('.new-game')[0],
     joinGame: $('.join-game')[0],
@@ -53,6 +55,8 @@ function init() {
     dom.leaderboardBtn.addEventListener('click', showLeaderboard)
     dom.rulesBtn.addEventListener('click', showRules)
     dom.leaderboardBtn.addEventListener('click', logout)
+    dom.rulesCloseBtn.addEventListener('click', hideRules)
+    dom.leaderboardCloseBtn.addEventListener('click', hideLeaderboard)
     
     newGame()
 }
@@ -79,10 +83,12 @@ function joinGame() {
 
 function hideUI(element){
     element.style.display = "none"
+    element.style.visibility = 'hidden'
 }
 
 function showUI(element){
     element.style.display = "flex"
+    element.style.visibility = 'visible'
 }
 
 function showRules(){
