@@ -2,6 +2,11 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Serverless web application example">
+
   <link rel="stylesheet" type="text/css" href="./css/style.css" />
   <link rel="stylesheet" type="text/css" href="./css/board.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
@@ -226,14 +231,13 @@
 
       <div class="join-game">
         <div class="title">join game</div>
-        <div class="link-container">
-
-          <input class="link-input" placeholder="Room code" type="text" pattern="[0-9]{8}" required>
-
-
-          <div class="link-button">Join</div>
-
-        </div>
+        <form id="linkForm">
+          <div class="input-container">
+            <input type="text" class="text-input" id="linkInput" placeholder="Room code" pattern="[0-9]{8}"
+              autocomplete="off" required>
+            <input type="submit" class="link-button" value="Join">
+          </div>
+        </form>
       </div>
 
       <div class="options">

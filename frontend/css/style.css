@@ -6,6 +6,7 @@
     --secondary-color: rgb(126, 156, 128, 0.8);
     --secondary-light-color: rgba(246, 237, 217);
     --background-color: rgba(246, 237, 217);
+    --background-dark-color: rgb(242, 230, 208);
     --secondary-medium-color: rgba(82, 131, 109, 0.8);
     --seconary-dark-color: rgba(30, 105, 94, 0.8);
     --seconary-dark-transparent-color: rgba(30, 105, 94, 0.3);
@@ -23,6 +24,7 @@ body {
     justify-content: center;
     background: var(--secondary-light-color);
     overflow: hidden;
+    font-family: sans-serif;
 }
 
 .app {
@@ -34,7 +36,6 @@ body {
     justify-content: space-between;
     user-select: none;
     position: relative;
-    font-family: sans-serif;
 }
 
 /* Rozmycie tła */
@@ -103,7 +104,6 @@ body {
 
 .join-game {
     align-items: center;
-    font-family: sans-serif;
     bottom: 40px;
 }
 
@@ -163,13 +163,16 @@ body {
     text-align: center;
     cursor: pointer;
     font-size: 30px;
+    display: table;
+    margin: 0 auto;
 }
 
 .leaderboard-button, .logout-button {
     margin-top: var(--normal-margin);
 }
 
-.new-game .title, .join-game .title, .leaderboard-window .title, .rules-window .title, .window .title {
+.title {
+    margin-bottom: var(--small-margin);
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -177,7 +180,7 @@ body {
     text-transform: uppercase;
 }
 
-.rules-window .rules-rule-title{
+.rules-window .rules-rule-title {
     font-size: 16px;
     font-weight: bold;
     color: var(--seconary-dark-color);
@@ -185,7 +188,7 @@ body {
     margin-top: var(--normal-margin);
 }
 
-.rules-window .rules-text{
+.rules-window .rules-text {
     font-size: 14px;
     color: var(--seconary-dark-color);
     margin-top: var(--small-margin);
@@ -197,7 +200,7 @@ body {
     line-height: 37px;
     border-radius: 6.25em;
     border-style: solid;
-    box-sizing: border-box  ;
+    box-sizing: border-box;
     border-color: var(--main-color);
     color: var(--main-color);
     text-align: center;
@@ -211,8 +214,10 @@ body {
 /* Buttons - can be reused */
 
 .sudoku-button {
-    width: 120px;
-    height: 30px;
+    width: max-content;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: var(--secondary-color);
     color: var(--secondary-light-color);
     font-weight: bold;
@@ -223,7 +228,10 @@ body {
     border-radius: 30px;
     text-transform: uppercase;
     cursor: pointer;
-    margin-top: var(--big-margin);
+    margin: var(--normal-margin) auto 0px;
+    border: none;
+    display: block;
+    outline: none;
 }
 
 /* Buttons:hover - can be reused */
@@ -244,12 +252,8 @@ body {
 
 /* CODE INPUT */
 
-.link-container {
-    margin-top: var(--big-margin);
-    font-size: 10px;
-    font-family: Roboto, sans-serif;
-    width: 100%;
-    font-weight: 700;
+.input-container {
+    font-size: 9px;
     border-radius: 6.25em;
     background-color: var(--secondary-light-color);
     padding: 0.625em;
@@ -257,10 +261,19 @@ body {
     box-shadow: 0 0.1em 0.3em var(--shadow-color);
     display: flex;
     justify-content: center;
-    height: 60px;
+    height: 50px;
+    margin-top: var(--normal-margin);
 }
 
-.link-input, .link-button {
+#linkForm .input-container {
+    margin-top: var(--big-margin);
+}
+
+#linkInput {
+    width: 100%;
+}
+
+.text-input, .link-button {
     font: inherit;
     border: 0;
     outline: 0;
@@ -269,7 +282,7 @@ body {
     font-size: 1.75em;
 }
 
-.link-input {
+.text-input {
     color: var(--main-light2-color);
     background: var(--secondary-light-color);
     height: 100%;
@@ -277,29 +290,40 @@ body {
     padding: 0 0.714em;
 }
 
-.link-input::placeholder {
+.text-input::placeholder, input::placeholder {
     color: var(--main-light2-color);
+    font-style: italic;
 }
 
-.link-container .link-input:valid {
+.input-container .text-input:valid {
     color: var(--secondary-medium-color);
 }
 
-.link-container .link-input:valid+.link-button {
+.input-container .text-input:valid+.link-button {
     color: var(--secondary-light-color);
     cursor: pointer;
 }
 
-.link-container .link-input:valid+.link-button:active {
+.input-container .text-input:valid+.link-button:active {
     transform: scale(.95);
 }
 
 .link-button {
     color: var(--main-light2-color);
-    height: 48px;
+    height: 38px;
     width: auto;
     text-align: center;
     width: 5em;
     background-color: var(--secondary-medium-color);
-    line-height: 48px;
+    line-height: 38px;
+}
+
+#signinForm, #registrationForm, #verifyForm {
+    width: 60%;
+    display: table;
+    margin: 0 auto;
+}
+
+.text-input:focus {
+    background-color: var(--background-dark-color);
 }
