@@ -2,6 +2,7 @@
     --background-color: rgba(246, 237, 217);
     --main-light2-color: rgba(169, 209, 153, 0.8);
     --main-color: rgba(100, 160, 75, 0.8);
+    --seconary-dark-color: rgba(30, 105, 94, 0.8);
 }
 
 .sudoku {
@@ -9,7 +10,7 @@
 }
 
 #main, #main table {
-    border: 1px solid grey;
+    border: 1px solid var(--seconary-dark-color);
     border-collapse: collapse;
     text-align: center;
     border-spacing: none;
@@ -19,17 +20,17 @@
 }
 
 #main td {
-    border: 2px solid #38702d;
+    border: 2px solid var(--seconary-dark-color);
     padding: 0;
 }
 
 #main td td {
-    border: 1px solid #000000;
+    border: 1px solid var(--seconary-dark-color);
     width: 50px;
     height: 50px;
     font-weight: bold;
     font-size: 1.4em;
-    color: #888888;
+    color: var(--seconary-dark-color);
     z-index: 100;
 }
 
