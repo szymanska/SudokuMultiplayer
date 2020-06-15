@@ -88,7 +88,7 @@ body {
 
 /* window settings - can be applied to other windows */
 
-.new-game, .join-game, .options, .rules-window, .leaderboard-window, .message-window {
+.new-game, .join-game, .options, .rules-window, .leaderboard-window, .message-window, .window {
     box-sizing: border-box;
     border: 5px solid var(--main-color);
     box-shadow: 0 0 0 0.3em var(--secondary-light-color), 0 0 0.4em 0.4em var(--main-color);
