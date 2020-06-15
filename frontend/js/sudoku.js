@@ -55,7 +55,7 @@
         dom.playBtn.addEventListener('click', startGame)
         dom.leaderboardBtn.addEventListener('click', showLeaderboard)
         dom.rulesBtn.addEventListener('click', showRules)
-        dom.leaderboardBtn.addEventListener('click', logout)
+        dom.logoutBtn.addEventListener('click', logout)
         dom.rulesCloseBtn.addEventListener('click', hideRules)
         dom.leaderboardCloseBtn.addEventListener('click', hideLeaderboard)
 
@@ -118,7 +118,27 @@
     }
 
     function logout() {
+        // ToDo: wyrzucić to
+        addLeaderboardRow("Classic Sudoku", "HARD", "30:20")
+    }
 
+    function addLeaderboardRow(type, level, time) {
+        if (!document.getElementsByTagName) return;
+        tabBody = document.getElementById("leaderboard-table");
+        row = document.createElement("tr");
+        cell1 = document.createElement("td");
+        cell2 = document.createElement("td");
+        cell3 = document.createElement("td");
+        textnode1 = document.createTextNode(type);
+        textnode2 = document.createTextNode(level);
+        textnode3 = document.createTextNode(time);
+        cell1.appendChild(textnode1);
+        cell2.appendChild(textnode2);
+        cell3.appendChild(textnode3);
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        tabBody.appendChild(row);
     }
 
     var WildRydes = window.WildRydes || {};
