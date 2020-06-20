@@ -1,7 +1,5 @@
 (function rideScopeWrapper($) {
 
-    const LEVEL_COUNT = { EASY: 1, NORMAL: 2, HARD: 3 }
-
     // const $ = (selector) => document.querySelectorAll(selector)
     const dom = {
         game: $('.game')[0],
@@ -15,7 +13,8 @@
         newGame: $('.new-game')[0],
         joinGame: $('.join-game')[0],
         options: $('.options')[0],
-        getLevel: () => { return $('input[type=radio]:checked')[0].value },
+        getLevel: () => { return $('.levels input[type=radio]:checked')[0].value },
+        getType: () => { return $('.sudoku-types input[type=radio]:checked')[0].value },
         playBtn: $('#play-btn')[0],
         clipboardBtn: $('#clipboard-btn')[0],
         rulesBtn: $('.options .rules-button')[0],
@@ -76,7 +75,8 @@
         render.updateTime('00:00')
         animation.hideMenu()
         level = dom.getLevel().toUpperCase()
-        requestCreateGame(level, "0", "email@email.com")
+        type = dom.getType().toUpperCase()
+        requestCreateGame(level, type, "email@email.com")
         timer.start()
     }
 
