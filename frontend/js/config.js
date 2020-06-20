@@ -6,5 +6,8 @@ window._config = {
     },
     api: {
         invokeUrl: 'https://uf05pybwoa.execute-api.us-east-1.amazonaws.com/prod'
+    },
+    websocket: {
+        endpointUrl: "wss://exyh4ujoya.execute-api.us-east-1.amazonaws.com/prod"
     }
 };

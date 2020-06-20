@@ -76,8 +76,36 @@
         animation.hideMenu()
         level = dom.getLevel().toUpperCase()
         type = dom.getType().toUpperCase()
+        connectToWebSocket()
         requestCreateGame(level, type, "email@email.com")
         timer.start()
+    }
+
+    function connectToWebSocket(){
+        socket = new WebSocket(_config.websocket.endpointUrl);
+
+        socket.onopen = function(event) {
+           console.log('Connection Open');
+           console.log(event)
+        };
+
+        socket.onmessage = function(event) {
+            console.log(event.data)
+        };
+
+        socket.onerror = function(event) {
+            console.error("WebSocket error observed:", event);
+        };
+
+        socket.onclose = function(event) {
+           console.log('Connection Closed');
+        };
+    }
+
+    function sendMessage(){
+        payload = { "action": "onMessage", "message": "Message Ania" };
+
+        socket.send(JSON.stringify(payload));
     }
 
     function joinGame() {
@@ -224,6 +252,8 @@
         textArea.select();
         document.execCommand("Copy");
         textArea.remove();
+        // ToDo: to be deleted
+        sendMessage();
     }
 
 
