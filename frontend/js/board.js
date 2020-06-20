@@ -3,13 +3,9 @@ let backgroundColor = getComputedStyle(document.documentElement).getPropertyValu
 let greenColor = getComputedStyle(document.documentElement).getPropertyValue('--main-light2-color');
 let mainColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
 
-function initGame() {
-
+function initGame(initNumbers) {
     board = new Sudoku;
-    board.fill(board);
-
-    // ToDo: to be deleted
-    board.eraseMost();
+    board.fill(initNumbers);
 
     addDragAndDrop();
     addKeyboard();
@@ -107,63 +103,53 @@ class Sudoku {
             };
         };
 
-        this.fill = createExampleSudoku;
+        function removeNoDrop(line_num, i) {
+            let line = that.rows[line_num]
+            if (line[i].dom.classList.contains('noDrop')) {
+                line[i].dom.classList.remove('noDrop');
+            }
+            line[i].dom.style.color = 'darkred';
+        }
 
-        // ToDo to be deleted
-        this.eraseMost = function (level) {
-            var boardSpot;
-            level = 5;
-            for (var i = 0; i < 81; i++) {
-                boardSpot = that.board[i];
-                //resettng from previous round
-                if (boardSpot.dom.classList.contains('noDrop')) {
-                    boardSpot.dom.classList.remove('noDrop');
-                    boardSpot.dom.style.color = 'darkred';
-                    //boardSpot.dom.style.fontSize = 'initial';
-                }
-                ;
-                if ((Math.floor(Math.random() * 10) + 1) > level) {
-                    boardSpot.val = ' ';
-                    //will need a better place in code for this iffy
+        function addNoDrop(line_num, i) {
+            let line = that.rows[line_num]
+            if (line[i].dom.classList.contains('noDrop') == false) {
+                line[i].dom.classList.add('noDrop');
+            }
+            line[i].dom.style.color = 'black';
+        }
 
+        function fillLine(line_num, nums) {
+            let line = that.rows[line_num]
+            for (var i = 0; i < line.length; i++) {
+
+                if (nums[i].is_blocked) {
+                    addNoDrop(line_num, i)
                 }
                 else {
-                    boardSpot.dom.style.color = 'black';
-                    //boardSpot.dom.style.fontSize = '1.2em'
-                    boardSpot.dom.classList.add('noDrop');
+                    removeNoDrop(line_num, i)
                 }
-            }
-            ;
+
+                if (nums[i].value == 0) {
+                    line[i].val = ' ';
+                }
+                else {
+                    line[i].val = nums[i].value;
+                }
+            };
+        };
+
+        this.fill = function (initNumbers) {
+            for (var i = 0; i < 9; i++)
+                fillLine(i, initNumbers[i])
+
             for (var i = 0; i < 81; i++) {
                 that.board[i].dom.innerHTML = that.board[i].val;
             }
-            ;
-        };
+        }
     }
 }
 
-
-function createExampleSudoku(board) {
-
-    function fillLine(line_num, nums) {
-        line = board.rows[line_num]
-        for (var i = 0; i < line.length; i++) {
-            line[i].val = nums[i];
-        };
-    };
-
-    fillLine(0, [5, 8, 1, 4, 7, 2, 9, 6, 3])
-    fillLine(1, [2, 7, 3, 6, 1, 9, 5, 4, 8])
-    fillLine(2, [6, 4, 9, 5, 3, 8, 7, 1, 2])
-    fillLine(3, [9, 5, 6, 1, 8, 7, 3, 2, 4])
-    fillLine(4, [4, 2, 8, 3, 9, 5, 6, 7, 1])
-    fillLine(5, [3, 1, 7, 2, 6, 4, 8, 5, 9])
-    fillLine(6, [8, 6, 4, 9, 5, 1, 2, 3, 7])
-    fillLine(7, [7, 3, 2, 8, 4, 6, 1, 9, 5])
-    fillLine(8, [1, 9, 5, 7, 2, 3, 4, 8, 6])
-
-    return true;
-}
 
 // DOUBLE CLICK TO CLEAR
 
