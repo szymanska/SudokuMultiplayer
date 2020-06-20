@@ -103,7 +103,7 @@ body {
     margin-right: var(--big-margin);
     margin-left: var(--big-margin);
     width: 200px;
-    text-align:center;
+    text-align: center;
 }
 
 .new-game, .join-game, .options {
@@ -193,7 +193,7 @@ body {
     text-transform: uppercase;
 }
 
-.rules-window .rules-rule-title {
+.rules-window .rules-rule-title, .message-title {
     font-size: 16px;
     font-weight: bold;
     color: var(--seconary-dark-color);
@@ -245,6 +245,13 @@ body {
     border: none;
     display: block;
     outline: none;
+}
+
+#clipboard-btn {
+    margin: 0px auto 0px;
+    padding: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 /* Buttons:hover - can be reused */
@@ -355,12 +362,13 @@ body {
 #leaderboard-table tr:nth-child(even) {
     background-color: var(--background-color);
 }
+
 #leaderboard-table tr:nth-child(odd) {
     background-color: var(--background-light-color);
 }
 
 #leaderboard-table tr:hover {
-    background-color:var(--background-dark-color);
+    background-color: var(--background-dark-color);
 }
 
 #leaderboard-table th {
