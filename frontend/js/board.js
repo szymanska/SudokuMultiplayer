@@ -195,7 +195,15 @@ function addDragAndDrop() {
             target[j].addEventListener('drop', function (e) {
                 e.preventDefault();
                 if (target[j].classList.contains('noDrop') == false) {
-                    target[j].innerHTML = e.dataTransfer.getData('text');
+                    smallRow = parseInt((j % 9) / 3)
+                    smallCol = j%3
+                    bigRow = parseInt(j/27)
+                    bigCol = parseInt(j/9)%3
+                    row = bigRow*3 + smallRow
+                    column = bigCol*3+ smallCol
+                    // target[j].innerHTML = e.dataTransfer.getData('text');
+                    value = e.dataTransfer.getData('text');
+                    requestChangeNumber(window.roomId, row, column, parseInt(value))
                 };
                 colorCell(target[j]);
             });
@@ -277,4 +285,46 @@ function addKeyboard() {
         }
     });
 
+}
+var authToken;
+
+WildRydes.authToken.then(function setAuthToken(token) {
+    if (token) {
+        authToken = token;
+    } else {
+        window.location.href = '/signin.html';
+    }
+}).catch(function handleTokenError(error) {
+    alert(error);
+    window.location.href = '/signin.html';
+});
+
+//CHANGE NUMBER
+
+function requestChangeNumber(roomId, row ,column, value) {
+    $.ajax({
+        method: 'POST',
+        url: _config.api.invokeUrl + '/change-number',
+        headers: {
+            Authorization: authToken
+        },
+        data: JSON.stringify({
+            roomId: roomId,
+            column: column,
+            row: row,
+            value: value
+        }),
+        contentType: 'application/json',
+        success: completeChangeNumberRequest,
+        error: function ajaxError(jqXHR, textStatus, errorThrown) {
+            console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
+            console.error('Response: ', jqXHR.responseText);
+            alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
+        }
+    });
+}
+
+function completeChangeNumberRequest(result) {
+    console.log('Response received from API: ', result);
+    
 }

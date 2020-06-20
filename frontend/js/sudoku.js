@@ -79,11 +79,12 @@
     }
 
     function joinGame() {
-        var code = $('#linkInput').val();
-        console.log(code)
-
         render.updateTime('00:00')
         animation.hideMenu()
+        var code = $('#linkInput').val();
+        console.log(code)
+        requestJoinGame(code, "email2@email.com")
+
         timer.start()
     }
 
@@ -179,6 +180,34 @@
     }
 
     function completeCreateGameRequest(result) {
+        console.log('Response received from API: ', result);
+        initGame(result.board)
+        dom.code.innerText = result.roomId  
+        window.roomId = result.roomId
+    }
+
+    function requestJoinGame(roomId, email) {
+        $.ajax({
+            method: 'POST',
+            url: _config.api.invokeUrl + '/join-game',
+            headers: {
+                Authorization: authToken
+            },
+            data: JSON.stringify({
+                roomId: roomId,
+                email: email
+            }),
+            contentType: 'application/json',
+            success: completeJoinGameRequest,
+            error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
+                console.error('Response: ', jqXHR.responseText);
+                alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
+            }
+        });
+    }
+
+    function completeJoinGameRequest(result) {
         console.log('Response received from API: ', result);
         initGame(result.board)
         dom.code.innerText = result.roomId  
