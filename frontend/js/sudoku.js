@@ -6,6 +6,7 @@
     const dom = {
         game: $('.game')[0],
         time: $('.game .time')[0],
+        code: $('.game .game-code')[0],
         menu: $('.menu')[0],
         rules: $('.rules')[0],
         rulesCloseBtn: $('.rules-window .close-button')[0],
@@ -70,7 +71,6 @@
     }
 
     function startGame() {
-        initGame()
         render.updateTime('00:00')
         animation.hideMenu()
         level = dom.getLevel().toUpperCase()
@@ -180,6 +180,9 @@
 
     function completeCreateGameRequest(result) {
         console.log('Response received from API: ', result);
+        initGame(result.board)
+        dom.code.innerText = result.roomId  
+        window.roomId = result.roomId
     }
 
 
