@@ -17,6 +17,7 @@
         options: $('.options')[0],
         getLevel: () => { return $('input[type=radio]:checked')[0].value },
         playBtn: $('#play-btn')[0],
+        clipboardBtn: $('#clipboard-btn')[0],
         rulesBtn: $('.options .rules-button')[0],
         leaderboardBtn: $('.options .leaderboard-button')[0],
         logoutBtn: $('.options .logout-button')[0],
@@ -59,6 +60,7 @@
         dom.logoutBtn.addEventListener('click', logout)
         dom.rulesCloseBtn.addEventListener('click', hideRules)
         dom.leaderboardCloseBtn.addEventListener('click', hideLeaderboard)
+        dom.clipboardBtn.addEventListener('click', copyToClipBoard)
 
         $('#linkForm').submit(joinGame);
 
@@ -182,7 +184,7 @@
     function completeCreateGameRequest(result) {
         console.log('Response received from API: ', result);
         initGame(result.board)
-        dom.code.innerText = result.roomId  
+        dom.code.innerText = result.roomId
         window.roomId = result.roomId
     }
 
@@ -210,8 +212,18 @@
     function completeJoinGameRequest(result) {
         console.log('Response received from API: ', result);
         initGame(result.board)
-        dom.code.innerText = result.roomId  
+        dom.code.innerText = result.roomId
         window.roomId = result.roomId
+    }
+
+    function copyToClipBoard() {
+        var copyText = document.getElementById("code-lbl");
+        var textArea = document.createElement("textarea");
+        textArea.value = copyText.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("Copy");
+        textArea.remove();
     }
 
 
