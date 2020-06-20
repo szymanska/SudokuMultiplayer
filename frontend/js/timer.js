@@ -19,7 +19,9 @@ class Timer {
                 this.time.second.toString().padStart(2, '0'),
             ].join(''))
         }
-        this.start = () => {
+        this.start = (offset) => {
+            this.time.minute = parseInt(offset/1000/60)
+            this.time.second = parseInt(offset/1000)%60
             this.t = setInterval(this.tickTock, 1000)
         }
         this.stop = () => {

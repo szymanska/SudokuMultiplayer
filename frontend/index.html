@@ -201,8 +201,16 @@
         <div class="message-title">Time</div>
         <span class="time">00:00</span>
         <div class="message-title">Game code</div>
-        <span class="game-code" id="code-lbl"></span>
+        <span class="game-code" id="code-lbl"> </span>
         <div class="sudoku-button" id="clipboard-btn">copy</div>
+        <div class="message-title">level</div>
+        <div id="info-lvl"> </div>
+        <div class="message-title">type</div>
+        <div id="info-type"> </div>
+        <div class="message-title">players</div>
+        <div id="info-players">
+
+        </div>
       </div>
 
     </div>
@@ -236,7 +244,7 @@
           <div class="input-container">
             <input type="text" class="text-input" id="linkInput" placeholder="Room code" pattern="[0-9]{8}"
               autocomplete="off" required>
-            <input type="submit" class="link-button" value="Join">
+            <div class="link-button">Join</div>
           </div>
         </form>
       </div>

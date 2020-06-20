@@ -1,10 +1,14 @@
 (function rideScopeWrapper($) {
 
-    // const $ = (selector) => document.querySelectorAll(selector)
     const dom = {
         game: $('.game')[0],
-        time: $('.game .time')[0],
-        code: $('.game .game-code')[0],
+
+        infoTime: $('.game .time')[0],
+        infoCode: $('.game .game-code')[0],
+        infoLvl: $('.game #info-lvl')[0],
+        infoType: $('.game #info-type')[0],
+        infoPlayers: $('.game #info-players')[0],
+        
         menu: $('.menu')[0],
         rules: $('.rules')[0],
         rulesCloseBtn: $('.rules-window .close-button')[0],
@@ -12,6 +16,7 @@
         leaderboard: $('.leaderboard')[0],
         newGame: $('.new-game')[0],
         joinGame: $('.join-game')[0],
+        joinBtn: $('.link-button')[0],
         options: $('.options')[0],
         getLevel: () => { return $('.levels input[type=radio]:checked')[0].value },
         getType: () => { return $('.sudoku-types input[type=radio]:checked')[0].value },
@@ -25,7 +30,7 @@
 
     const render = {
         updateTime: (value) => {
-            dom.time.innerText = value
+            dom.infoTime.innerText = value
         }
     }
 
@@ -60,62 +65,72 @@
         dom.rulesCloseBtn.addEventListener('click', hideRules)
         dom.leaderboardCloseBtn.addEventListener('click', hideLeaderboard)
         dom.clipboardBtn.addEventListener('click', copyToClipBoard)
+        dom.joinBtn.addEventListener('click', joinGame);
 
-        $('#linkForm').submit(joinGame);
-
-        newGame()
-    }
-
-    function newGame() {
         timer = new Timer(render.updateTime)
         animation.showMenu()
     }
 
     function startGame() {
-        render.updateTime('00:00')
-        animation.hideMenu()
         level = dom.getLevel().toUpperCase()
         type = dom.getType().toUpperCase()
-        connectToWebSocket()
-        requestCreateGame(level, type, "email@email.com")
-        timer.start()
-    }
-
-    function connectToWebSocket(){
-        socket = new WebSocket(_config.websocket.endpointUrl);
-
-        socket.onopen = function(event) {
-           console.log('Connection Open');
-           console.log(event)
-        };
-
-        socket.onmessage = function(event) {
-            console.log(event.data)
-        };
-
-        socket.onerror = function(event) {
-            console.error("WebSocket error observed:", event);
-        };
-
-        socket.onclose = function(event) {
-           console.log('Connection Closed');
-        };
-    }
-
-    function sendMessage(){
-        payload = { "action": "onMessage", "message": "Message Ania" };
-
-        socket.send(JSON.stringify(payload));
+        requestCreateGame(level, type, "ania@ania.com")
     }
 
     function joinGame() {
-        render.updateTime('00:00')
-        animation.hideMenu()
         var code = $('#linkInput').val();
-        console.log(code)
-        requestJoinGame(code, "email2@email.com")
+        window.roomId = code
+        connectToWebSocket()
+    }
 
-        timer.start()
+    function connectToWebSocket() {
+        socket = new WebSocket(_config.websocket.endpointUrl + "?email=" + "ania@ania.com" + "&roomId=" + window.roomId);
+        window.socket = socket
+        socket.onopen = function (event) {
+            console.log('Connection Open');
+            console.log(event)
+
+            payload = { "action": "joinGame", "message": {
+                "email":  "ania@ania.com",
+                "roomId": window.roomId
+            } };
+
+            socket.send(JSON.stringify(payload));
+        };
+
+        socket.onmessage = function (event) {
+            var result = JSON.parse(event.data);
+            if (result['body']['messageType'] == "JoinResult") {
+                launchGame(result['body']['room'])
+            }
+            console.log(event.data)
+            console.log(event)
+        };
+
+        socket.onerror = function (event) {
+            console.error("WebSocket error observed:", event);
+        };
+
+        socket.onclose = function (event) {
+            console.log('Connection Closed');
+        };
+    }
+
+
+    function launchGame(room) {
+        animation.hideMenu()
+        initGame(room['sudoku'])
+        
+        stoper = Math.abs(new Date() - new Date(room.date.replace(/-/g,'/')))-(2*60*60*1000)
+        timer.start(stoper)
+        dom.infoCode.innerText = room.GameId
+        dom.infoLvl.innerText = room.lvl
+        dom.infoType.innerText = room.type
+        for(var i =0;i<room.players.length; i++){
+            var newDiv = document.createElement("div");
+            newDiv.innerHTML = room.players[i][0];
+            dom.infoPlayers.appendChild(newDiv)
+        }
     }
 
     function hideUI(element) {
@@ -211,37 +226,8 @@
 
     function completeCreateGameRequest(result) {
         console.log('Response received from API: ', result);
-        initGame(result.board)
-        dom.code.innerText = result.roomId
         window.roomId = result.roomId
-    }
-
-    function requestJoinGame(roomId, email) {
-        $.ajax({
-            method: 'POST',
-            url: _config.api.invokeUrl + '/join-game',
-            headers: {
-                Authorization: authToken
-            },
-            data: JSON.stringify({
-                roomId: roomId,
-                email: email
-            }),
-            contentType: 'application/json',
-            success: completeJoinGameRequest,
-            error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
-                console.error('Response: ', jqXHR.responseText);
-                alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
-            }
-        });
-    }
-
-    function completeJoinGameRequest(result) {
-        console.log('Response received from API: ', result);
-        initGame(result.board)
-        dom.code.innerText = result.roomId
-        window.roomId = result.roomId
+        connectToWebSocket()
     }
 
     function copyToClipBoard() {
@@ -252,8 +238,6 @@
         textArea.select();
         document.execCommand("Copy");
         textArea.remove();
-        // ToDo: to be deleted
-        sendMessage();
     }
 
 
