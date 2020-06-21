@@ -182,7 +182,7 @@ function addDoubleClick() {
             target[j].addEventListener('dblclick', function () {
                 if (target[j].classList.contains('noDrop') == false) {
                     rowCol = targetToRowCol(j)
-                    requestChangeNumber(window.roomId, rowCol.row, rowCol.column, ' ')
+                    requestChangeNumber(window.roomId, rowCol.row, rowCol.column, 0)
                 }
             });
         })(i)
@@ -220,6 +220,9 @@ function addDragAndDrop() {
                 if (target[j].classList.contains('noDrop') == false) {
                     rowCol = targetToRowCol(j)
                     value = e.dataTransfer.getData('text');
+                    if (value == " ") {
+                        value = 0
+                    }
                     requestChangeNumber(window.roomId, rowCol.row, rowCol.column, parseInt(value))
                 };
                 colorCell(target[j]);
@@ -296,9 +299,12 @@ function addKeyboard() {
     });
 
     document.addEventListener('keypress', function (e) {
-        if (49 <= e.keyCode && e.keyCode <= 57) {
-            if (board.board[rowPos * 9 + colPos].dom.classList.contains('noDrop') == false) {
+        if (board.board[rowPos * 9 + colPos].dom.classList.contains('noDrop') == false) {
+            if (49 <= e.keyCode && e.keyCode <= 57) {
                 requestChangeNumber(window.roomId, rowPos, colPos, e.keyCode - 48)
+            }
+            if (e.keyCode == 48 || e.keyCode == 32) {
+                requestChangeNumber(window.roomId, rowPos, colPos, 0)
             }
         }
     });
