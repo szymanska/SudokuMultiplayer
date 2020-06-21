@@ -42,9 +42,9 @@ class Board:
         self.validate_row(row)
         self.validate_column(column)
         self.validate_field_value(value)
-        if self.fields[row, column]["is_blocked"]:
+        if self.fields[row][column]["is_blocked"]:
             raise Exception("This field is blocked, it should not be allowed to edit it!")
-        self.fields[row, column]["value"] = value
+        self.fields[row][column]["value"] = value
 
     @staticmethod
     def validate_field_value(value):
@@ -116,7 +116,7 @@ class Board:
         :param check_complete: Sprawdza czy wszystkie pola są uzupełnione - potrzebne przy sprawdzaniu końca gry
         """
         self.validate_column(column)
-        column_fields = self.fields[:, column]
+        column_fields = [row[column] for row in self.fields]
         if check_complete and not self.is_complete(column_fields):
             return False
         return self.is_correct(column_fields)
@@ -201,9 +201,9 @@ class Board:
             print("|", end=" ")
             for column in range(9):
                 if (column + 1) % 3 == 0:
-                    print(self.fields[row, column][val], end=" | ")
+                    print(self.fields[row][column][val], end=" | ")
                 else:
-                    print(self.fields[row, column][val], end="  ")
+                    print(self.fields[row][column][val], end="  ")
             if (row + 1) % 3 == 0:
                 print("\n" + 30 * "-")
             else:
