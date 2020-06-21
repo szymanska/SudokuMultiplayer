@@ -117,6 +117,9 @@
                 case "NumberChanged":
                     changeNumber(body['row'], body['column'], body['value'])
                     break;
+                case "NewPlayerAnnounce":
+                    displayCoplayer(body['email'])
+                    break;
             }
 
             console.log(event.data)
@@ -142,10 +145,14 @@
         dom.infoLvl.innerText = room.lvl
         dom.infoType.innerText = room.type
         for (var i = 0; i < room.players.length; i++) {
-            var newDiv = document.createElement("div");
-            newDiv.innerHTML = room.players[i][0];
-            dom.infoPlayers.appendChild(newDiv)
+            displayCoplayer(room.players[i][0])
         }
+    }
+
+    function displayCoplayer(email) {
+        var newDiv = document.createElement("div");
+        newDiv.innerHTML = email;
+        dom.infoPlayers.appendChild(newDiv)
     }
 
     function hideUI(element) {
