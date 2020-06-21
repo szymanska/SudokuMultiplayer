@@ -48,20 +48,6 @@ class Sudoku {
             };
         }());
 
-        // init columns
-        (function () {
-            that.columns = [];
-            for (var j = 0; j < 9; j++) {
-                that.columns.push([]);
-                that.columns[j].push(that.board[j])
-            };
-            for (var i = 1; i < 9; i++) {
-                for (var j = 0; j < 9; j++) {
-                    that.columns[j].push(that.board[j + i * 9])
-                }
-            };
-        }());
-
         // init boxes
         (function () {
             var x, y;
