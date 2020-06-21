@@ -141,7 +141,7 @@ class Sudoku {
 
         this.fill = function (initNumbers) {
             for (var i = 0; i < 9; i++)
-                fillLine(i, initNumbers[i])
+                fillLine(i, initNumbers[i]);
 
             for (var i = 0; i < 81; i++) {
                 that.board[i].dom.innerHTML = that.board[i].val;
@@ -151,22 +151,25 @@ class Sudoku {
 }
 
 function changeNumber(row, column, value) {
+    if(value == 0){
+        value = " ";
+    }
     j = rowColToTarget(row, column)
     let target = document.getElementsByClassName('target');
     target[j].innerHTML = value;
 }
 
 function targetToRowCol(t) {
-    smallRow = parseInt((t % 9) / 3)
-    smallCol = t % 3
-    bigRow = parseInt(t / 27)
-    bigCol = parseInt(t / 9) % 3
-    row = bigRow * 3 + smallRow
-    column = bigCol * 3 + smallCol
+    smallRow = parseInt((t % 9) / 3);
+    smallCol = t % 3;
+    bigRow = parseInt(t / 27);
+    bigCol = parseInt(t / 9) % 3;
+    row = bigRow * 3 + smallRow;
+    column = bigCol * 3 + smallCol;
     return {
         row: row,
         column: column
-    }
+    };
 }
 
 function rowColToTarget(row, col) {
