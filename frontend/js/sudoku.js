@@ -186,9 +186,19 @@
     }
 
     function displayCoplayer(email) {
-        var newDiv = document.createElement("div");
-        newDiv.innerHTML = email;
-        dom.infoPlayers.appendChild(newDiv)
+        isEmailAlreadyDisplayed = false
+        $('#info-players').find('div').each(function () {
+            if ($(this)[0].innerText == email) {
+                isEmailAlreadyDisplayed = true
+                return
+            }
+        });
+
+        if (isEmailAlreadyDisplayed == false) {
+            var newDiv = document.createElement("div");
+            newDiv.innerHTML = email;
+            dom.infoPlayers.appendChild(newDiv)
+        }
     }
 
     function removeCoplayer(email) {
