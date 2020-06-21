@@ -79,7 +79,7 @@
     function startGame() {
         level = dom.getLevel().toUpperCase()
         type = dom.getType().toUpperCase()
-        requestCreateGame(level, type, window.name)
+        requestCreateGame(level, type, getCognitoUsername())
     }
 
     function joinGame() {
@@ -89,7 +89,7 @@
     }
 
     function connectToWebSocket() {
-        socket = new WebSocket(_config.websocket.endpointUrl + "?email=" + window.name + "&roomId=" + window.roomId);
+        socket = new WebSocket(_config.websocket.endpointUrl + "?email=" + getCognitoUsername() + "&roomId=" + window.roomId);
         window.socket = socket
         socket.onopen = function (event) {
             console.log('Connection Open');
@@ -97,10 +97,10 @@
 
             payload = {
                 "action": "joinGame", "message": {
-                    "email": window.name,
+                    "email": getCognitoUsername(),
                     "roomId": window.roomId
                 }
-            };
+            };  
 
             socket.send(JSON.stringify(payload));
         };
@@ -194,8 +194,8 @@
     }
 
     function logout() {
-        // ToDo: wyrzucić to
-        addLeaderboardRow("Classic Sudoku", "HARD", "30:20")
+        SudokuGame.signOut()
+        window.location.href = '/signin.html';
     }
 
     function addLeaderboardRow(type, level, time) {

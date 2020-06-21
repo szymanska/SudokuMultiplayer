@@ -114,7 +114,6 @@ var SudokuGame = window.SudokuGame || {};
         event.preventDefault();
         signin(email, password,
             function signinSuccess() {
-                window.name = email
                 window.location.href = 'index.html';
             },
             function signinError(err) {
