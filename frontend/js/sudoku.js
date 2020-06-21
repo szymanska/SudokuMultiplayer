@@ -38,9 +38,9 @@
     const animation = {
         showMenu: () => {
             dom.game.classList.add('stop')
-            dom.newGame.style.opacity= "1"
-            dom.joinGame.style.opacity= "1"
-            dom.options.style.opacity= "1"
+            dom.newGame.style.opacity = "1"
+            dom.joinGame.style.opacity = "1"
+            dom.options.style.opacity = "1"
             gsap.to(dom.newGame, 0, { visibility: 'visible', x: 0, delay: 0 })
             gsap.from(dom.newGame, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0 })
             gsap.to(dom.joinGame, 0, { visibility: 'visible', x: 0, delay: 0.3 })
@@ -62,8 +62,7 @@
     window.onload = init
     var SudokuGame = window.SudokuGame || {};
 
-    window.onunload = function () {
-        console.log("BYE")
+    window.onbeforeunload = function () {
         disconnect()
     }
 
@@ -106,7 +105,7 @@
                     "email": getCognitoUsername(),
                     "roomId": window.roomId
                 }
-            };  
+            };
 
             socket.send(JSON.stringify(payload));
         };
@@ -278,7 +277,7 @@
         textArea.remove();
     }
 
-    function goBackToMenu(){
+    function goBackToMenu() {
         disconnect()
         animation.showMenu()
     }
