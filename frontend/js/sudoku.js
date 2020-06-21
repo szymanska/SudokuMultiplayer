@@ -124,6 +124,9 @@
                 case "NewPlayerAnnounce":
                     displayCoplayer(body['email'])
                     break;
+                case "NumberChangedError":
+                    alert(body['message'])
+                    break;
             }
 
             console.log(event.data)
