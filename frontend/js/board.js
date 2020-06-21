@@ -137,7 +137,7 @@ class Sudoku {
 }
 
 function changeNumber(row, column, value) {
-    if(value == 0){
+    if (value == 0) {
         value = " ";
     }
     j = rowColToTarget(row, column)

@@ -5,7 +5,7 @@ let poolData = {
 
 let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
-function getCognitoUsername(){
+function getCognitoUsername() {
     cognitoUser = userPool.getCurrentUser()
     return cognitoUser.username
 }

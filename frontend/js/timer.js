@@ -21,8 +21,8 @@ class Timer {
         }
         this.start = (offset) => {
             this.stop()
-            this.time.minute = parseInt(offset/1000/60)
-            this.time.second = parseInt(offset/1000)%60
+            this.time.minute = parseInt(offset / 1000 / 60)
+            this.time.second = parseInt(offset / 1000) % 60
             this.t = setInterval(this.tickTock, 1000)
         }
         this.stop = () => {

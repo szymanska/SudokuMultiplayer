@@ -167,11 +167,16 @@ body {
 }
 
 .rules-button, .leaderboard-button, .logout-button {
-    width: 65px;
-    height: 65px;
-    line-height: 65px;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
     border-radius: 50%;
     background-color: var(--secondary-color);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+    padding: 10px;
     color: var(--secondary-light-color);
     text-align: center;
     cursor: pointer;
@@ -182,6 +187,18 @@ body {
 
 .leaderboard-button, .logout-button {
     margin-top: var(--normal-margin);
+}
+
+.rules-button {
+    background-image: url('../img/questionmark.png')
+}
+
+.leaderboard-button {
+    background-image: url('../img/cup.png')
+}
+
+.logout-button {
+    background-image: url('../img/quit.png')
 }
 
 .title {
