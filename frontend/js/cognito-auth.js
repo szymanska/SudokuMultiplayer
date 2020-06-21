@@ -1,6 +1,4 @@
-/*global WildRydes _config AmazonCognitoIdentity AWSCognito*/
-
-var WildRydes = window.WildRydes || {};
+var SudokuGame = window.SudokuGame || {};
 
 (function scopeWrapper($) {
     var signinUrl = 'signin.html';
@@ -25,11 +23,11 @@ var WildRydes = window.WildRydes || {};
         AWSCognito.config.region = _config.cognito.region;
     }
 
-    WildRydes.signOut = function signOut() {
+    SudokuGame.signOut = function signOut() {
         userPool.getCurrentUser().signOut();
     };
 
-    WildRydes.authToken = new Promise(function fetchCurrentAuthToken(resolve, reject) {
+    SudokuGame.authToken = new Promise(function fetchCurrentAuthToken(resolve, reject) {
         var cognitoUser = userPool.getCurrentUser();
 
         if (cognitoUser) {
@@ -116,7 +114,7 @@ var WildRydes = window.WildRydes || {};
         event.preventDefault();
         signin(email, password,
             function signinSuccess() {
-                console.log('Successfully Logged In');
+                window.name = email
                 window.location.href = 'index.html';
             },
             function signinError(err) {

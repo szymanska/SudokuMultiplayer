@@ -150,6 +150,28 @@ class Sudoku {
     }
 }
 
+function changeNumber(row, column, value) {
+    j = rowColToTarget(row, column)
+    let target = document.getElementsByClassName('target');
+    target[j].innerHTML = value;
+}
+
+function targetToRowCol(t) {
+    smallRow = parseInt((t % 9) / 3)
+    smallCol = t % 3
+    bigRow = parseInt(t / 27)
+    bigCol = parseInt(t / 9) % 3
+    row = bigRow * 3 + smallRow
+    column = bigCol * 3 + smallCol
+    return {
+        row: row,
+        column: column
+    }
+}
+
+function rowColToTarget(row, col) {
+    return parseInt(col / 3) * 9 + col % 3 + 3 * (row % 3) + parseInt(row / 3) * 27
+}
 
 // DOUBLE CLICK TO CLEAR
 
@@ -159,7 +181,8 @@ function addDoubleClick() {
         (function (j) {
             target[j].addEventListener('dblclick', function () {
                 if (target[j].classList.contains('noDrop') == false) {
-                    target[j].innerHTML = ' ';
+                    rowCol = targetToRowCol(j)
+                    requestChangeNumber(window.roomId, rowCol.row, rowCol.column, ' ')
                 }
             });
         })(i)
@@ -195,15 +218,9 @@ function addDragAndDrop() {
             target[j].addEventListener('drop', function (e) {
                 e.preventDefault();
                 if (target[j].classList.contains('noDrop') == false) {
-                    smallRow = parseInt((j % 9) / 3)
-                    smallCol = j%3
-                    bigRow = parseInt(j/27)
-                    bigCol = parseInt(j/9)%3
-                    row = bigRow*3 + smallRow
-                    column = bigCol*3+ smallCol
-                    // target[j].innerHTML = e.dataTransfer.getData('text');
+                    rowCol = targetToRowCol(j)
                     value = e.dataTransfer.getData('text');
-                    requestChangeNumber(window.roomId, row, column, parseInt(value))
+                    requestChangeNumber(window.roomId, rowCol.row, rowCol.column, parseInt(value))
                 };
                 colorCell(target[j]);
             });
@@ -214,48 +231,49 @@ function addDragAndDrop() {
 
 // KEYBOARD INPUT
 
-var inputPos = 0;
+var rowPos = 0;
+var colPos = 0;
 function changeKeyboardPosition(direction) {
 
-    board.board[inputPos].dom.style.backgroundColor = backgroundColor;
+    board.board[rowPos * 9 + colPos].dom.style.backgroundColor = backgroundColor;
 
     function getNextPos(direction) {
         //left
         if (direction == 37) {
-            if (inputPos % 9 == 0) {
-                inputPos += 8;
+            if (colPos == 0) {
+                colPos = 8;
             } else {
-                inputPos--;
+                colPos--;
             }
         };
         //right
         if (direction == 39) {
-            if (inputPos % 9 == 8) {
-                inputPos -= 8;
+            if (colPos == 8) {
+                colPos = 0;
             } else {
-                inputPos++;
+                colPos++;
             }
         };
         //up
         if (direction == 38) {
-            if (inputPos < 9) {
-                inputPos += 72
+            if (rowPos == 0) {
+                rowPos = 8
             } else {
-                inputPos -= 9;
+                rowPos--;
             }
         };
         //down
         if (direction == 40) {
-            if (inputPos >= 72) {
-                inputPos -= 72
+            if (rowPos == 8) {
+                rowPos = 0
             } else {
-                inputPos += 9;
+                rowPos++;
             }
         };
     }
     getNextPos(direction)
 
-    colorCell(board.board[inputPos].dom)
+    colorCell(board.board[rowPos * 9 + colPos].dom)
 }
 
 function colorCell(cell) {
@@ -279,8 +297,8 @@ function addKeyboard() {
 
     document.addEventListener('keypress', function (e) {
         if (49 <= e.keyCode && e.keyCode <= 57) {
-            if (board.board[inputPos].dom.classList.contains('noDrop') == false) {
-                board.board[inputPos].dom.innerHTML = e.keyCode - 48;
+            if (board.board[rowPos * 9 + colPos].dom.classList.contains('noDrop') == false) {
+                requestChangeNumber(window.roomId, rowPos, colPos, e.keyCode - 48)
             }
         }
     });
@@ -288,7 +306,7 @@ function addKeyboard() {
 }
 var authToken;
 
-WildRydes.authToken.then(function setAuthToken(token) {
+SudokuGame.authToken.then(function setAuthToken(token) {
     if (token) {
         authToken = token;
     } else {
@@ -301,30 +319,16 @@ WildRydes.authToken.then(function setAuthToken(token) {
 
 //CHANGE NUMBER
 
-function requestChangeNumber(roomId, row ,column, value) {
-    $.ajax({
-        method: 'POST',
-        url: _config.api.invokeUrl + '/change-number',
-        headers: {
-            Authorization: authToken
-        },
-        data: JSON.stringify({
-            roomId: roomId,
-            column: column,
-            row: row,
-            value: value
-        }),
-        contentType: 'application/json',
-        success: completeChangeNumberRequest,
-        error: function ajaxError(jqXHR, textStatus, errorThrown) {
-            console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
-            console.error('Response: ', jqXHR.responseText);
-            alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
+function requestChangeNumber(roomId, row, column, value) {
+    payload = {
+        "action": "changeNumber",
+        "message": {
+            "roomId": roomId,
+            "column": column,
+            "row": row,
+            "value": value
         }
-    });
-}
+    };
 
-function completeChangeNumberRequest(result) {
-    console.log('Response received from API: ', result);
-    
+    window.socket.send(JSON.stringify(payload));
 }

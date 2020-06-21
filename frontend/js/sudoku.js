@@ -8,7 +8,7 @@
         infoLvl: $('.game #info-lvl')[0],
         infoType: $('.game #info-type')[0],
         infoPlayers: $('.game #info-players')[0],
-        
+
         menu: $('.menu')[0],
         rules: $('.rules')[0],
         rulesCloseBtn: $('.rules-window .close-button')[0],
@@ -54,8 +54,9 @@
     }
 
     let timer
-
     window.onload = init
+    var SudokuGame = window.SudokuGame || {};
+
 
     function init() {
         dom.playBtn.addEventListener('click', startGame)
@@ -74,7 +75,7 @@
     function startGame() {
         level = dom.getLevel().toUpperCase()
         type = dom.getType().toUpperCase()
-        requestCreateGame(level, type, "ania@ania.com")
+        requestCreateGame(level, type, window.name)
     }
 
     function joinGame() {
@@ -84,27 +85,41 @@
     }
 
     function connectToWebSocket() {
-        socket = new WebSocket(_config.websocket.endpointUrl + "?email=" + "ania@ania.com" + "&roomId=" + window.roomId);
+        socket = new WebSocket(_config.websocket.endpointUrl + "?email=" + window.name + "&roomId=" + window.roomId);
         window.socket = socket
         socket.onopen = function (event) {
             console.log('Connection Open');
             console.log(event)
 
-            payload = { "action": "joinGame", "message": {
-                "email":  "ania@ania.com",
-                "roomId": window.roomId
-            } };
+            payload = {
+                "action": "joinGame", "message": {
+                    "email": window.name,
+                    "roomId": window.roomId
+                }
+            };
 
             socket.send(JSON.stringify(payload));
         };
 
         socket.onmessage = function (event) {
             var result = JSON.parse(event.data);
-            if (result['body']['messageType'] == "JoinResult") {
-                launchGame(result['body']['room'])
+
+            if (result['message'] == "Internal server error") {
+                console.log("Error", result)
+                return
             }
+
+            body = result['body']
+            switch (body['messageType']) {
+                case "JoinResult":
+                    launchGame(body['room'])
+                    break;
+                case "NumberChanged":
+                    changeNumber(body['row'], body['column'], body['value'])
+                    break;
+            }
+
             console.log(event.data)
-            console.log(event)
         };
 
         socket.onerror = function (event) {
@@ -120,13 +135,13 @@
     function launchGame(room) {
         animation.hideMenu()
         initGame(room['sudoku'])
-        
-        stoper = Math.abs(new Date() - new Date(room.date.replace(/-/g,'/')))-(2*60*60*1000)
+
+        stoper = Math.abs(new Date() - new Date(room.date.replace(/-/g, '/'))) - (2 * 60 * 60 * 1000)
         timer.start(stoper)
         dom.infoCode.innerText = room.GameId
         dom.infoLvl.innerText = room.lvl
         dom.infoType.innerText = room.type
-        for(var i =0;i<room.players.length; i++){
+        for (var i = 0; i < room.players.length; i++) {
             var newDiv = document.createElement("div");
             newDiv.innerHTML = room.players[i][0];
             dom.infoPlayers.appendChild(newDiv)
@@ -187,11 +202,10 @@
         tabBody.appendChild(row);
     }
 
-    var WildRydes = window.WildRydes || {};
 
     var authToken;
 
-    WildRydes.authToken.then(function setAuthToken(token) {
+    SudokuGame.authToken.then(function setAuthToken(token) {
         if (token) {
             authToken = token;
         } else {
@@ -217,9 +231,9 @@
             contentType: 'application/json',
             success: completeCreateGameRequest,
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                console.error('Error requesting ride: ', textStatus, ', Details: ', errorThrown);
-                console.error('Response: ', jqXHR.responseText);
-                alert('An error occured when requesting your unicorn:\n' + jqXHR.responseText);
+                console.error('Error requesting create game!')
+                console.log(textStatus, errorThrown, jqXHR.responseText);
+                alert('An error occured when creating game:\n' + jqXHR.responseText);
             }
         });
     }
