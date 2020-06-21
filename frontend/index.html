@@ -16,6 +16,17 @@
 
   <div class="app">
     <div class="game">
+      <div class="message-window">
+        <div class="message-title">Time</div>
+        <span class="time">00:00</span>
+        <div class="message-title">Game code</div>
+        <span class="game-code" id="code-lbl"> </span>
+        <div class="sudoku-button" id="clipboard-btn">copy</div>
+        <div class="message-title">level</div>
+        <div id="info-lvl"> </div>
+        <div class="message-title">type</div>
+        <div id="info-type"> </div>
+      </div>
 
       <table id='main'>
         <tr>
@@ -197,16 +208,7 @@
         </tr>
       </table>
 
-      <div class="message-window">
-        <div class="message-title">Time</div>
-        <span class="time">00:00</span>
-        <div class="message-title">Game code</div>
-        <span class="game-code" id="code-lbl"> </span>
-        <div class="sudoku-button" id="clipboard-btn">copy</div>
-        <div class="message-title">level</div>
-        <div id="info-lvl"> </div>
-        <div class="message-title">type</div>
-        <div id="info-type"> </div>
+      <div class="players-window">
         <div class="message-title">players</div>
         <div id="info-players"></div>
         <div class="sudoku-button" id="back-btn">back to menu</div>

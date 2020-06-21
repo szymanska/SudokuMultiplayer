@@ -88,7 +88,7 @@ body {
 
 /* window settings - can be applied to other windows */
 
-.new-game, .join-game, .options, .rules-window, .leaderboard-window, .message-window, .window {
+.new-game, .join-game, .options, .rules-window, .leaderboard-window, .message-window, .window, .players-window {
     box-sizing: border-box;
     border: 5px solid var(--main-color);
     box-shadow: 0 0 0 0.3em var(--secondary-light-color), 0 0 0.4em 0.4em var(--main-color);
@@ -98,12 +98,19 @@ body {
     padding: var(--normal-margin);
 }
 
-.message-window {
+.message-window, .players-window {
     margin: var(--small-margin);
     margin-right: var(--big-margin);
     margin-left: var(--big-margin);
-    width: 300px;
     text-align: center;
+}
+
+.message-window {
+    width: 150px;
+}
+
+.players-window {
+    width: 300px;
 }
 
 .new-game, .join-game, .options {
@@ -269,6 +276,10 @@ body {
     padding: 0px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+#back-btn{
+    margin-top: var(--normal-margin);
 }
 
 /* Buttons:hover - can be reused */

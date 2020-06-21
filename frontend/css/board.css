@@ -9,6 +9,10 @@
     height: 60%;
 }
 
+#main {
+    min-width: 350px;
+}
+
 #main, #main table {
     border: 1px solid var(--seconary-dark-color);
     border-collapse: collapse;
