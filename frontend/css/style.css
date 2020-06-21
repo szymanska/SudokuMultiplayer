@@ -278,7 +278,7 @@ body {
     padding-right: 15px;
 }
 
-#back-btn{
+#back-btn {
     margin-top: var(--normal-margin);
 }
 
@@ -405,4 +405,8 @@ body {
     text-align: left;
     background-color: var(--seconary-dark-color);
     color: var(--background-color);
+}
+
+#controls-title {
+    margin-top: var(--normal-margin);
 }
