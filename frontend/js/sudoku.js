@@ -57,6 +57,10 @@
     window.onload = init
     var SudokuGame = window.SudokuGame || {};
 
+    window.onunload = function () {
+        console.log("BYE")
+        disconnect()
+    }
 
     function init() {
         dom.playBtn.addEventListener('click', startGame)
@@ -134,6 +138,9 @@
         };
     }
 
+    function disconnect() {
+        socket.close();
+    }
 
     function launchGame(room) {
         animation.hideMenu()
@@ -144,6 +151,7 @@
         dom.infoCode.innerText = room.GameId
         dom.infoLvl.innerText = room.lvl
         dom.infoType.innerText = room.type
+        dom.infoPlayers.innerHTML = '';
         for (var i = 0; i < room.players.length; i++) {
             displayCoplayer(room.players[i][0])
         }
