@@ -79,6 +79,7 @@
 
         timer = new Timer(render.updateTime)
         animation.showMenu()
+        requestGetLeaderboard()
     }
 
     function startGame() {
@@ -271,6 +272,26 @@
         console.log('Response received from API: ', result);
         window.roomId = result.roomId
         connectToWebSocket()
+    }
+
+    function requestGetLeaderboard(){
+        $.ajax({
+            method: 'GET',
+            url: _config.api.invokeUrl + '/get-leaderboard',
+            headers: {
+                Authorization: authToken
+            },
+            success: completeGetLeaderboard,
+            error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                console.error('Error requesting create game!')
+                console.log(textStatus, errorThrown, jqXHR.responseText);
+                alert('An error occured when creating game:\n' + jqXHR.responseText);
+            }
+        });
+    }
+
+    function completeGetLeaderboard(result){
+        console.log('Response received from API: ', result);
     }
 
     function copyToClipBoard() {
