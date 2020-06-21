@@ -108,7 +108,6 @@
         window.socket = socket
         socket.onopen = function (event) {
             console.log('Connection Open');
-            console.log(event)
 
             payload = {
                 "action": "joinGame", "message": {
@@ -124,7 +123,7 @@
             var result = JSON.parse(event.data);
 
             if (result['message'] == "Internal server error") {
-                console.log("Error", result)
+                console.log("Internal server error: ", result)
                 return
             }
 
@@ -292,15 +291,12 @@
             contentType: 'application/json',
             success: completeCreateGameRequest,
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                console.error('Error requesting create game!')
-                console.log(textStatus, errorThrown, jqXHR.responseText);
                 alert('An error occured when creating game:\n' + jqXHR.responseText);
             }
         });
     }
 
     function completeCreateGameRequest(result) {
-        console.log('Response received from API: ', result);
         window.roomId = result.roomId
         connectToWebSocket()
     }
@@ -314,8 +310,6 @@
             },
             success: completeGetLeaderboard,
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                console.error('Error requesting leaderboard!')
-                console.log(textStatus, errorThrown, jqXHR.responseText);
                 alert('An error occured when requesting leaderboard:\n' + jqXHR.responseText);
             }
         });
@@ -341,8 +335,6 @@
             }),
             contentType: 'application/json',
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                console.error('Error when sending time!')
-                console.log(textStatus, errorThrown, jqXHR.responseText);
                 alert('An error occured when sending time:\n' + jqXHR.responseText);
             }
         });

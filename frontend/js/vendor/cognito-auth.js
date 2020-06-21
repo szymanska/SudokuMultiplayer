@@ -128,8 +128,6 @@ var SudokuGame = window.SudokuGame || {};
         var password2 = $('#password2InputRegister').val();
 
         var onSuccess = function registerSuccess(result) {
-            var cognitoUser = result.user;
-            console.log('user name is ' + cognitoUser.getUsername());
             var confirmation = ('Registration successful. Please check your email inbox or spam folder for your verification code.');
             if (confirmation) {
                 window.location.href = 'verify.html';
@@ -153,9 +151,7 @@ var SudokuGame = window.SudokuGame || {};
         event.preventDefault();
         verify(email, code,
             function verifySuccess(result) {
-                console.log('call result: ' + result);
-                console.log('Successfully verified');
-                alert('Verification successful. You will now be redirected to the login page.');
+                alert('Verification successful. You will now be redirected to the sign in page.');
                 window.location.href = signinUrl;
             },
             function verifyError(err) {
