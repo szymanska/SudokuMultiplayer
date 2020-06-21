@@ -49,13 +49,19 @@
             gsap.from(dom.options, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0.15 })
             gsap.to(dom.menu, 1, { display: "flex", duration: 0.5, delay: 0.15 })
         },
-        hideMenu: () => {
+        deleteBlur: () => {
             dom.game.classList.remove('stop')
+        },
+        hideMenuKeepBlur: () => {
             gsap.to(dom.newGame, 1, { opacity: 0, duration: 0.5, delay: 0 })
             gsap.to(dom.joinGame, 1, { opacity: 0, duration: 0.5, delay: 0.3 })
             gsap.to(dom.options, 1, { opacity: 0, duration: 0.5, delay: 0.15 })
             gsap.to(dom.menu, 1, { display: "none", duration: 0.5, delay: 0.15 })
         },
+        hideMenu: () => {
+            animation.deleteBlur()
+            animation.hideMenuKeepBlur()
+        },  
     }
 
     let timer
@@ -67,6 +73,8 @@
     }
 
     function init() {
+        animation.showMenu()
+
         dom.playBtn.addEventListener('click', startGame)
         dom.leaderboardBtn.addEventListener('click', showLeaderboard)
         dom.rulesBtn.addEventListener('click', showRules)
@@ -78,7 +86,6 @@
         dom.backBtn.addEventListener('click', goBackToMenu)
 
         timer = new Timer(render.updateTime)
-        animation.showMenu()
         requestGetLeaderboard()
     }
 
@@ -86,12 +93,14 @@
         level = dom.getLevel().toUpperCase()
         type = dom.getType().toUpperCase()
         requestCreateGame(level, type, getCognitoUsername())
+        animation.hideMenuKeepBlur()
     }
 
     function joinGame() {
         var code = $('#linkInput').val();
         window.roomId = code
         connectToWebSocket()
+        animation.hideMenuKeepBlur()
     }
 
     function connectToWebSocket() {
@@ -134,6 +143,7 @@
                     alert(body['message'])
                     break;
                 case "GameIsWon":
+                    postTime(timer.time)
                     changeNumber(body['row'], body['column'], body['value'])
                     disconnect()
                     timer.stop()
@@ -161,7 +171,6 @@
     }
 
     function launchGame(room) {
-        animation.hideMenu()
         initGame(room['sudoku'])
 
         stoper = Math.abs(new Date() - new Date(room.date.replace(/-/g, '/'))) - (2 * 60 * 60 * 1000)
@@ -173,6 +182,7 @@
         for (var i = 0; i < room.players.length; i++) {
             displayCoplayer(room.players[i][0])
         }
+        animation.deleteBlur()
     }
 
     function displayCoplayer(email) {
@@ -303,6 +313,26 @@
 
     function completeGetLeaderboard(result) {
         console.log('Response received from API: ', result);
+    }
+
+    function postTime(time) {
+        $.ajax({
+            method: 'POST',
+            url: _config.api.invokeUrl + '/send-time',
+            headers: {
+                Authorization: authToken
+            },
+            data: JSON.stringify({
+                time: time,
+                roomId: window.roomId
+            }),
+            contentType: 'application/json',
+            error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                console.error('Error when sending time!')
+                console.log(textStatus, errorThrown, jqXHR.responseText);
+                alert('An error occured when sending time:\n' + jqXHR.responseText);
+            }
+        });
     }
 
     function copyToClipBoard() {
