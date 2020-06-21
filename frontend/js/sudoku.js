@@ -61,7 +61,7 @@
         hideMenu: () => {
             animation.deleteBlur()
             animation.hideMenuKeepBlur()
-        },  
+        },
     }
 
     let timer
@@ -312,7 +312,7 @@
     }
 
     function completeGetLeaderboard(result) {
-        for(var i = 0; i<result.length; i++){
+        for (var i = 0; i < result.length; i++) {
             row = result[i];
             addLeaderboardRow(row.type, row.level, row.time);
         }
