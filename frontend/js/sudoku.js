@@ -312,13 +312,16 @@
     }
 
     function completeGetLeaderboard(result) {
-        console.log('Response received from API: ', result);
+        for(var i = 0; i<result.length; i++){
+            row = result[i];
+            addLeaderboardRow(row.type, row.level, row.time);
+        }
     }
 
     function postTime(time) {
         $.ajax({
             method: 'POST',
-            url: _config.api.invokeUrl + '/send-time',
+            url: _config.api.invokeUrl + '/sexnd-time',
             headers: {
                 Authorization: authToken
             },
