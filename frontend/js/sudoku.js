@@ -321,7 +321,7 @@
     function postTime(time) {
         $.ajax({
             method: 'POST',
-            url: _config.api.invokeUrl + '/sexnd-time',
+            url: _config.api.invokeUrl + '/send-time',
             headers: {
                 Authorization: authToken
             },
