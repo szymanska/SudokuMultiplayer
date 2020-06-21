@@ -135,10 +135,13 @@
                     break;
                 case "GameIsWon":
                     changeNumber(body['row'], body['column'], body['value'])
-                    alert("Game is won!!!")
                     disconnect()
                     timer.stop()
+                    alert("Game is won!!!")
                     break;
+                case "PlayerLeftRoom":
+                    removeCoplayer(body['email'])
+                    break
             }
 
             console.log(event.data)
@@ -176,6 +179,14 @@
         var newDiv = document.createElement("div");
         newDiv.innerHTML = email;
         dom.infoPlayers.appendChild(newDiv)
+    }
+
+    function removeCoplayer(email) {
+        $('#info-players').find('div').each(function () {
+            if ($(this)[0].innerText == email) {
+                dom.infoPlayers.removeChild($(this)[0])
+            }
+        });
     }
 
     function hideUI(element) {
@@ -274,7 +285,7 @@
         connectToWebSocket()
     }
 
-    function requestGetLeaderboard(){
+    function requestGetLeaderboard() {
         $.ajax({
             method: 'GET',
             url: _config.api.invokeUrl + '/get-leaderboard',
@@ -283,14 +294,14 @@
             },
             success: completeGetLeaderboard,
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
-                console.error('Error requesting create game!')
+                console.error('Error requesting leaderboard!')
                 console.log(textStatus, errorThrown, jqXHR.responseText);
-                alert('An error occured when creating game:\n' + jqXHR.responseText);
+                alert('An error occured when requesting leaderboard:\n' + jqXHR.responseText);
             }
         });
     }
 
-    function completeGetLeaderboard(result){
+    function completeGetLeaderboard(result) {
         console.log('Response received from API: ', result);
     }
 
