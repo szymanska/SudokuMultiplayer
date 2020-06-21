@@ -22,6 +22,7 @@
         getType: () => { return $('.sudoku-types input[type=radio]:checked')[0].value },
         playBtn: $('#play-btn')[0],
         clipboardBtn: $('#clipboard-btn')[0],
+        backBtn: $('#back-btn')[0],
         rulesBtn: $('.options .rules-button')[0],
         leaderboardBtn: $('.options .leaderboard-button')[0],
         logoutBtn: $('.options .logout-button')[0],
@@ -37,12 +38,16 @@
     const animation = {
         showMenu: () => {
             dom.game.classList.add('stop')
+            dom.newGame.style.opacity= "1"
+            dom.joinGame.style.opacity= "1"
+            dom.options.style.opacity= "1"
             gsap.to(dom.newGame, 0, { visibility: 'visible', x: 0, delay: 0 })
             gsap.from(dom.newGame, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0 })
             gsap.to(dom.joinGame, 0, { visibility: 'visible', x: 0, delay: 0.3 })
             gsap.from(dom.joinGame, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0.3 })
             gsap.to(dom.options, 0, { visibility: 'visible', x: 0, delay: 0.15 })
             gsap.from(dom.options, 1, { y: '-300px', ease: Elastic.easeOut.config(0.6, 0.4), delay: 0.15 })
+            gsap.to(dom.menu, 1, { display: "flex", duration: 0.5, delay: 0.15 })
         },
         hideMenu: () => {
             dom.game.classList.remove('stop')
@@ -71,6 +76,7 @@
         dom.leaderboardCloseBtn.addEventListener('click', hideLeaderboard)
         dom.clipboardBtn.addEventListener('click', copyToClipBoard)
         dom.joinBtn.addEventListener('click', joinGame);
+        dom.backBtn.addEventListener('click', goBackToMenu)
 
         timer = new Timer(render.updateTime)
         animation.showMenu()
@@ -270,6 +276,11 @@
         textArea.select();
         document.execCommand("Copy");
         textArea.remove();
+    }
+
+    function goBackToMenu(){
+        disconnect()
+        animation.showMenu()
     }
 
 

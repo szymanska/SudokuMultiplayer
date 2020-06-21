@@ -247,7 +247,7 @@ body {
     outline: none;
 }
 
-#clipboard-btn {
+#clipboard-btn, #back-btn {
     margin: 0px auto 0px;
     padding: 0px;
     padding-left: 15px;
