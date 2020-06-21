@@ -132,6 +132,12 @@
                 case "NumberChangedError":
                     alert(body['message'])
                     break;
+                case "GameIsWon":
+                    changeNumber(body['row'], body['column'], body['value'])
+                    alert("Game is won!!!")
+                    disconnect()
+                    timer.stop()
+                    break;
             }
 
             console.log(event.data)
