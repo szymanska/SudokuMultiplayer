@@ -109,7 +109,7 @@
 
     function joinGame() {
         var code = $('#linkInput').val();
-        if(code.length != 8){
+        if (code.length != 8) {
             alert("Provide 8-digit Room code!")
             return;
         }
@@ -138,6 +138,8 @@
             var result = JSON.parse(event.data);
 
             if (result['message'] == "Internal server error") {
+                disconnect()
+                connectToWebSocket()
                 console.log("Internal server error: ", result)
                 return
             }
@@ -173,12 +175,16 @@
 
         socket.onerror = function (event) {
             console.error("WebSocket error observed:", event);
+            disconnect()
+            connectToWebSocket()
         };
 
         socket.onclose = function (event) {
             console.log('Connection Closed');
         };
     }
+
+    window.connectToWebSocket = connectToWebSocket
 
     function disconnect() {
         socket.close();

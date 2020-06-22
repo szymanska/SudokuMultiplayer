@@ -327,6 +327,10 @@ function requestChangeNumber(roomId, row, column, value) {
             "value": value
         }
     };
-
-    window.socket.send(JSON.stringify(payload));
+    if (window.socket.readyState === WebSocket.CLOSED) {
+        window.connectToWebSocket()
+    }
+    else {
+        window.socket.send(JSON.stringify(payload));
+    }
 }
