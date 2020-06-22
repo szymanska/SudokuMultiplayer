@@ -318,6 +318,7 @@ SudokuGame.authToken.then(function setAuthToken(token) {
 //CHANGE NUMBER
 
 function requestChangeNumber(roomId, row, column, value) {
+    changeNumber(row, column, value)
     payload = {
         "action": "changeNumber",
         "message": {
