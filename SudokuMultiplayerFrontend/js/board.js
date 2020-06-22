@@ -4,9 +4,12 @@ let greenColor = getComputedStyle(document.documentElement).getPropertyValue('--
 let mainColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
 
 function initGame(initNumbers) {
-    board = new Sudoku;
     board.fill(initNumbers);
+}
 
+function initBoard() {
+    board = new Sudoku;
+    board.clearBoard();
     addDragAndDrop();
     addKeyboard();
     addDoubleClick();

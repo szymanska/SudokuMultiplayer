@@ -89,6 +89,9 @@
         document.getElementById("windoku").addEventListener('click', comingSoon)
 
         timer = new Timer(render.updateTime)
+
+        initBoard()
+
         requestGetLeaderboard()
     }
 
