@@ -109,6 +109,10 @@
 
     function joinGame() {
         var code = $('#linkInput').val();
+        if(code.length != 8){
+            alert("Provide 8-digit Room code!")
+            return;
+        }
         window.roomId = code
         connectToWebSocket()
         animation.hideMenuKeepBlur()
