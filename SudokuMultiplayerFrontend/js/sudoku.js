@@ -85,8 +85,16 @@
         dom.joinBtn.addEventListener('click', joinGame);
         dom.backBtn.addEventListener('click', goBackToMenu)
 
+        document.getElementById("diagonal").addEventListener('click', comingSoon)
+        document.getElementById("windoku").addEventListener('click', comingSoon)
+
         timer = new Timer(render.updateTime)
         requestGetLeaderboard()
+    }
+
+    function comingSoon() {
+        $("#classic").prop("checked", true);
+        alert("This game mode is not ready yet. Coming soon!")
     }
 
     function startGame() {
