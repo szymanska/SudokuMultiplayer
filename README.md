@@ -1,3 +1,3 @@
 # SudokuMultiplayer 
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Alt Text](Screenshots/two_players.gif "Chanages made by other players appear in real time.)
