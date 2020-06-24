@@ -141,6 +141,7 @@
                 disconnect()
                 connectToWebSocket()
                 console.log("Internal server error: ", result)
+                console.log("Reconnecting")
                 return
             }
 
@@ -170,7 +171,6 @@
                     break
             }
 
-            console.log(event.data)
         };
 
         socket.onerror = function (event) {
