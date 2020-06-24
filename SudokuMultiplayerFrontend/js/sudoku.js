@@ -162,9 +162,11 @@
                 case "GameIsWon":
                     postTime(timer.time)
                     changeNumber(body['row'], body['column'], body['value'])
-                    disconnect()
                     timer.stop()
-                    alert("Game is won!!!")
+                    setTimeout(function () {
+                        disconnect()
+                        alert("Game is won!!!")
+                    }, 2000);
                     break;
                 case "PlayerLeftRoom":
                     removeCoplayer(body['email'])
